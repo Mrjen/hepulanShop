@@ -1,0 +1,277 @@
+<style>
+page {
+    width: 750rpx;
+}
+
+.search_box {
+    width: 100%;
+    height: 110rpx;
+    background: #c1e2de;
+    justify-content: center;
+}
+
+.search_box input {
+    background: #fff;
+    width: 602rpx;
+    height: 82rpx;
+    border-radius: 10rpx 0 0 10rpx;
+    padding: 0 20rpx;
+    font-size: 30rpx;
+}
+
+.search_box .search_btn {
+    width: 92rpx;
+    height: 82rpx;
+    background: #17392f;
+    border-radius: 0 10rpx 10rpx 0;
+}
+
+.product_row {
+    width: 750rpx;
+    height: 402rpx;
+    background: #17392f;
+    margin-top: 20rpx;
+    padding: 20rpx;
+    overflow: hidden;
+}
+
+.product_row .item {
+    width: 230rpx;
+    margin-right: 26rpx;
+    background: #fff;
+    border-radius: 10rpx;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 1px solid #fff;
+}
+
+.product_row scroll-view {
+    height: 200rpx;
+    width: 700rpx;
+}
+
+.product_row .item image {
+    display: block;
+    width: 230rpx;
+    height: 142rpx;
+}
+
+.product_in {
+    display: flex;
+}
+
+.product_row .item text {
+    display: block;
+    padding: 8rpx;
+    font-size: 18rpx;
+    text-align: center;
+}
+
+.herbplantist {
+    display: flex;
+    justify-content: flex-end;
+    width: 713rpx;
+    height: 70rpx;
+    position: relative;
+    right: 0;
+    transform: translateX(10px)
+}
+
+.discribe {
+    text-align: right;
+    position: relative;
+    color: #fff;
+    width: 730rpx;
+    overflow: hidden;
+}
+
+.discribe text {
+    font-size: 18rpx;
+}
+
+.discribe .play_time {
+    font-size: 62rpx;
+    font-weight: bold;
+    line-height: 1;
+}
+
+
+/* 商品列表 */
+
+.product_list {
+    background: url('https://qncdn.playonwechat.com/hepulanShop/index_product_bg.png');
+    background-size: 750rpx 387rpx;
+    background-position: 0 0;
+    min-height: 387rpx;
+    background-color: #c1e2de;
+    padding-top: 162rpx;
+    padding-bottom: 100rpx;
+    background-repeat: no-repeat;
+}
+
+.productNav {
+    justify-content: center;
+    margin-bottom: 30rpx;
+}
+
+.productNav .nav_item {
+    width: 158rpx;
+    height: 56rpx;
+    text-align: center;
+    line-height: 56rpx;
+    background: #fff;
+    color: #17392f;
+}
+
+.productNav .nav_item:nth-of-type(1) {
+    border-radius: 4rpx 0 0 4rpx;
+}
+
+.productNav .nav_item:nth-of-type(2) {
+    border-radius: 0  4rpx 4rpx 0;
+}
+
+.item_product{
+    width: 704rpx;
+    height: 220rpx;
+    background-size: 100% 100%;
+    margin:15rpx auto;
+    line-height: 50rpx;
+    text-align: center;
+    color: #fff;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.item_product view:nth-of-type(1){
+    font-size: 36rpx;
+}
+
+.item_product view:nth-of-type(2){
+    font-size: 26rpx;
+}
+
+.item_product .buy{
+    width: 168rpx;
+    height: 34rpx;
+    background: #fff;
+    color: #333;
+    line-height: 34rpx;
+    text-align: center;
+    font-size: 20rpx;
+}
+
+.item_product .buy::after{
+    display: none;
+}
+</style>
+
+<template>
+    <view class="container">
+        <!-- 搜索 -->
+        <view class="search_box flex">
+            <input type="text" />
+            <view class="search_btn"></view>
+        </view>
+        <!-- 轮播 -->
+        <swiper></swiper>
+        <!-- 商品列表 -->
+        <view class="product_row">
+            <scroll-view scroll-x="true">
+                <view class="product_in">
+                    <view class="item" wx:for="{{productRow}}">
+                        <image src="{{item.img}}"></image>
+                        <text>{{item.text}}</text>
+                    </view>
+                </view>
+            </scroll-view>
+            <view class="discribe">
+                <image class="herbplantist" src="https://qncdn.playonwechat.com/hepulanShop/index_herbplantist.png"></image>
+                <text>新品拼团剩余时间</text>
+                <view class="play_time">12:00:00</view>
+            </view>
+        </view>
+        <!-- 女人  -->
+        <view class="product_list">
+            <view class="productNav flex">
+                <view class="nav_item" @tap="changeNav({{index}})" wx:for="{{productNav}}" style="background:{{item.active?'#17392f':''}};color:{{item.active?'#fff':''}}">{{item.text}}</view>
+            </view>
+            <!-- 商品 -->
+            <view class="item_product flex" wx:for="{{productList}}" style="background-image:url({{item.img}})">
+                <view>{{item.name}}</view>
+                <view>￥{{item.price}}</view>
+                <button class="buy">立即购买</button>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import Swiper from '../../components/swiper'
+export default class extends wepy.page {
+    config = {
+        navigationBarTitleText: "禾葡兰商城"
+    }
+    data = {
+        text: "测试测试测试",
+        productRow: [{
+            img: "http://iph.href.lu/230x176",
+            text: "修红舒润面膜"
+        }, {
+            img: "http://iph.href.lu/230x176",
+            text: "修红舒润面膜"
+        }, {
+            img: "http://iph.href.lu/230x176",
+            text: "修红舒润面膜"
+        }, {
+            img: "http://iph.href.lu/230x176",
+            text: "修红舒润面膜"
+        }, {
+            img: "http://iph.href.lu/230x176",
+            text: "修红舒润面膜"
+        }, {
+            img: "http://iph.href.lu/230x176",
+            text: "修红舒润面膜"
+        }, {
+            img: "http://iph.href.lu/230x176",
+            text: "修红舒润面膜"
+        }],
+        productNav: [{
+            text: "最热",
+            active: true
+        }, {
+            text: "最新",
+            active: false
+        }],
+        productList:[{
+            img:"http://iph.href.lu/704x220",
+            name:"倾慕丰润口红",
+            price:"380"
+        },{
+            img:"http://iph.href.lu/704x220",
+            name:"倾慕丰润口红",
+            price:"380"
+        },{
+            img:"http://iph.href.lu/704x220",
+            name:"倾慕丰润口红",
+            price:"380"
+        }]
+    }
+    components = {
+        swiper: Swiper
+    }
+    methods = {
+        changeNav(e) {
+            let productNav = this.productNav;
+            for (var i = 0; i < productNav.length; i++) {
+                productNav[i].active = false; 
+            }
+            productNav[e].active = true;
+            this.productNav = productNav;
+            this.$apply();
+        }
+    }
+
+}
+</script>
