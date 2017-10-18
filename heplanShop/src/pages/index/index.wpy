@@ -211,10 +211,11 @@ import wepy from 'wepy'
 import Swiper from '../../components/swiper'
 export default class extends wepy.page {
     config = {
-        navigationBarTitleText: "禾葡兰商城"
+        navigationBarTitleText: "禾葡兰护肤商城",
+        navigationBarBackgroundColor: '#16382e',
+        navigationBarTextStyle: '#fff'
     }
     data = {
-        text: "测试测试测试",
         productRow: [{
             img: "http://iph.href.lu/230x176",
             text: "修红舒润面膜"
@@ -271,6 +272,14 @@ export default class extends wepy.page {
             this.productNav = productNav;
             this.$apply();
         }
+    }
+
+    onShow(){
+       console.log("show")
+    }
+
+    onLoad (){
+        console.log("onLoad")
     }
 
 }

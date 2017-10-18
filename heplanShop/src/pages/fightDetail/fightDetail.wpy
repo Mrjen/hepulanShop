@@ -1,0 +1,434 @@
+<style lang="less">
+page {
+    background: url(https://qncdn.playonwechat.com/hepulanShop/fight_group_detail_bg.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.container {
+    width: 606rpx;
+    min-height: 500rpx;
+    background: #fff;
+    border-radius: 30rpx;
+    margin: 40rpx auto;
+    box-shadow: 0 0 30rpx rgba(0, 0, 0, .1);
+    padding-top: 68rpx;
+    .name {
+        font-size: 36rpx;
+        text-align: center;
+    }
+    .tip {
+        font-size: 24rpx;
+        margin-top: 28rpx;
+        text-align: center;
+    }
+    .time {
+        font-size: 53rpx;
+        text-align: center;
+        margin-bottom: 60rpx;
+    }
+    .swiper {
+        width: 482rpx;
+        height: 244rpx;
+        margin: 0 auto;
+        image {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    } // 商品信息
+    .group_info {
+        width: 482rpx;
+        margin: 0 auto;
+        padding: 20rpx 0;
+        .info_top {
+            justify-content: space-between;
+            .price {
+                font-size: 34rpx;
+            }
+            .info_left {
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                margin-left: 20rpx;
+                .oldprice {
+                    font-size: 25rpx;
+                    text-decoration: line-through;
+                    line-height: 1;
+                }
+                .tag {
+                    color: #fff; // height: 30rpx;
+                    display: flex;
+                    view:nth-of-type(1) {
+                        display: block;
+                        background: #16382e;
+                        padding: 4rpx 10rpx;
+                        font-size: 18rpx;
+                        border-radius: 50rpx;
+                        margin-right: 10rpx;
+                    }
+                    view:nth-of-type(2) {
+                        display: inline-block;
+                        background: #16382e;
+                        padding: 4rpx 10rpx;
+                        font-size: 18rpx;
+                        border-radius: 50rpx;
+                    }
+                }
+            }
+            .help {
+                display: flex;
+                font-size: 18rpx;
+                align-items: center;
+                text {
+                    display: block;
+                    width: 20rpx;
+                    height: 20rpx;
+                    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAMAAABFjsb+AAAAY1BMVEUAAAAWOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4WOC4xGaDPAAAAIXRSTlMA/sMJg+t/FcaPUC346MofEg/mtdQxBZR3YTqsbmtWSySLNhQ/AAAArklEQVQY03VQSQ7CQAyz01m6Q3co6/9fyYRAe0D4EFmRFcfGG5UTTy+uwhfHguxlkJ4sjrY65JRSeSyF+QHKWoYMyKKOwDYCKBjSPI1+PAMILICqFhWIu45cldQVHEsAcwdMVGFJh7zpYLhxSrNrcniB4Z4ECvHgYKupXowM3HRLk+Gj2+6FNu3snvmqswYwX/sv4XF5Avaf5dAg9QrLseedI/a81kvcevnX32/PLz8VBvGyWh/WAAAAAElFTkSuQmCC');
+                    background-size: 100% 100%;
+                    margin-right: 12rpx;
+                }
+            }
+        } // 颜色
+        .type_box {
+            display: flex;
+            margin-top: 40rpx;
+            .title {
+                flex-shrink: 0;
+                font-size: 24rpx;
+                width: 134rpx;
+                margin-right: 10rpx;
+                text-align: right;
+            }
+            .type_view {
+                text {
+                    display: inline-block;
+                    color: #333;
+                    width: 100rpx;
+                    height: 46rpx;
+                    line-height: 46rpx;
+                    font-size: 26rpx;
+                    text-align: center;
+                    background: #e4f1ee;
+                    border-radius: 6rpx;
+                    margin-right: 16rpx;
+                    margin-bottom: 16rpx;
+                }
+                text:nth-of-type(3n) {
+                    margin-right: 0;
+                }
+                .active {
+                    background: #16382e;
+                    color: #fff;
+                }
+            }
+        } // 数量
+        .count_box {
+            margin-top: 30rpx;
+            .title {
+                width: 134rpx;
+                text-align: right;
+            }
+            .opation_box {
+                display: flex;
+                view:nth-of-type(1) {
+                    font-size: 40rpx;
+                    width: 40rpx;
+                    height: 40rpx;
+                    display: flex; // align-items: center;
+                    justify-content: center;
+                    background: #16382e;
+                    color: #fff;
+                    line-height: 36rpx;
+                    border-radius: 4rpx 0 0 4rpx;
+                }
+                view:nth-of-type(2) {
+                    width: 60rpx;
+                    height: 40rpx;
+                    line-height: 40rpx;
+                    text-align: center;
+                    border-top: 1px solid #16382e;
+                    border-bottom: 1px solid #16382e;
+                }
+                view:nth-of-type(3) {
+                    font-size: 40rpx;
+                    width: 40rpx;
+                    height: 40rpx;
+                    display: flex; // align-items: center;
+                    justify-content: center;
+                    background: #16382e;
+                    color: #fff;
+                    line-height: 36rpx;
+                    border-radius: 0 4rpx 4rpx 0;
+                }
+            }
+        } // 按钮区
+        .btn_box {
+            display: flex;
+            margin-top: 60rpx;
+            button:nth-of-type(1) {
+                width: 142rpx;
+                height: 64rpx;
+                font-size: 14rpx;
+                align-items: center;
+                padding-top: 10rpx;
+                background: #deede9;
+                margin: 0;
+                margin-right: 30rpx;
+                text {
+                    display: block;
+                    width: 28rpx;
+                    height: 28rpx;
+                    background: url(https://qncdn.playonwechat.com/hepulanShop/kefu.png);
+                    background-size: 100% 100%;
+                    margin: 0 auto;
+                }
+                view {
+                    font-size: 14rpx;
+                    line-height: 1;
+                }
+            }
+            button:nth-of-type(1):after {
+                display: none;
+            }
+            .only_buy {
+                margin-right: 30rpx;
+            }
+            .only_buy,
+            .group_buy {
+                width: 142rpx;
+                height: 64rpx;
+                text-align: center;
+                background: #deede9;
+                .price {
+                    font-size: 26rpx;
+                }
+                .tiip {
+                    font-size: 16rpx;
+                }
+            }
+        } // 收藏及展示
+        .collect_box {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20rpx;
+            .collect {
+                display: flex;
+                align-items: cneter;
+                font-size: 20rpx;
+                margin-right: 10rpx;
+                text {
+                    display: block;
+                    line-height: 40rpx;
+                }
+            }
+            .collect image {
+                display: block;
+                width: 40rpx;
+                height: 40rpx;
+                margin-right: 5rpx;
+            }
+            .collect1 image {
+                width: 30rpx;
+                height: 30rpx;
+                padding: 8rpx 0;
+            }
+        } // 商品参数及详情
+        .detail {
+            .nav {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 100rpx;
+                view {
+                    width: 138rpx;
+                    height: 38rpx;
+                    color: #333;
+                    background: #deede9;
+                    text-align: center;
+                    line-height: 38rpx;
+                    font-size: 22rpx;
+                    border-radius: 10rpx;
+                }
+                view.active{
+                    background:#16382e;
+                    color: #fff;
+                }
+            }
+            .detail_content{
+                width: 482rpx;
+                min-height: 100rpx;
+                margin-top: 40rpx;
+                border:1px solid red;
+            }
+        }
+    }
+}
+</style>
+
+<template>
+    <view class="container">
+        <view class="name">{{detail.name}}</view>
+        <view class="tip">距离拼团结束时间</view>
+        <view class="time">{{detail.endtime}}</view>
+        <!-- 图片轮播 -->
+        <swiper class="swiper" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
+            <block wx:for="{{detail.img}}" wx:key="index">
+                <swiper-item>
+                    <image src="{{item}}" class="slide-image" />
+                </swiper-item>
+            </block>
+        </swiper>
+        <!-- 商品信息 -->
+        <view class="group_info">
+            <view class="info_top flex">
+                <view class="top_left flex">
+                    <view class="price">￥{{detail.price}}</view>
+                    <view class="info_left flex">
+                        <view class="oldprice">
+                            ￥{{detail.oldprice}}
+                        </view>
+                        <view class="tag">
+                            <view>{{detail.group_num}}人拼团</view>
+                            <view>拼团立省{{detail.save_money}}元</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="help" @tap="toRules()">
+                    <text></text>规则</view>
+            </view>
+            <!-- 颜色 -->
+            <view class="type_box">
+                <view class="title">颜色选择：</view>
+                <view class="type_view">
+                    <text wx:for="{{detail.color}}" class="{{item.active?'active':''}}" wx:key="index" @tap="changeType({{index}})">{{item.colortype}}</text>
+                </view>
+            </view>
+            <!-- 数量 -->
+            <view class="count_box flex">
+                <view class="title">数量：</view>
+                <view class="opation_box">
+                    <view>-</view>
+                    <view>1</view>
+                    <view>+</view>
+                </view>
+            </view>
+            <!-- 购买区 -->
+            <view class="btn_box">
+                <button open-type="concant">
+                    <text></text>
+                    <view>找客服</view>
+                </button>
+                <view class="only_buy">
+                    <view class="price">￥{{detail.price}}</view>
+                    <view class="tiip">单独购买</view>
+                </view>
+                <view class="group_buy">
+                    <view class="price">￥{{detail.price}}</view>
+                    <view class="tiip">{{detail.group_num}}人拼团</view>
+                </view>
+            </view>
+            <!-- 收藏及展示 -->
+            <view class="collect_box">
+                <view class="collect collect1">
+                    <image wx:if="{{detail.is_collect}}" src="https://qncdn.playonwechat.com/group_collect.png"></image>
+                    <image wx:else src="https://qncdn.playonwechat.com/group_collect_active1.png"></image>
+                    <text>收藏</text>
+                </view>
+                <view class="collect">
+                    <image src="https://qncdn.playonwechat.com/hepulanShop/group_hepulan_logo.png"></image>
+                    <text>官方店铺认证</text>
+                </view>
+                <view class="collect">
+                    <image src="https://qncdn.playonwechat.com/hepulanShop/group_hepulan_pay.png"></image>
+                    <text>交易担保</text>
+                </view>
+            </view>
+            <!-- 商品参数及详情介绍 -->
+            <view class="detail">
+                <view class="nav">
+                    <view wx:for="{{navList}}" class="{{item.active?'active':''}}">{{item.text}}</view>
+                </view>
+                <view class="detail_content">
+                    <view></view>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class extends wepy.page {
+    config = {
+        navigationBarTitleText: "拼团详情",
+        navigationBarBackgroundColor: '#16382e',
+        navigationBarTextStyle: '#fff'
+    }
+    data = {
+        detail: {
+            name: "禾葡兰修红舒润面膜",
+            endtime: "12:00:00",
+            img: ["https://qncdn.playonwechat.com/hepulanShop/group_fitht01.png", "https://qncdn.playonwechat.com/hepulanShop/group_fitht01.png"],
+            price: "19.90",
+            oldprice: "42.00",
+            group_num: 2,
+            save_money: "22.1",
+            is_collect: 1,
+            color: [{
+                id: 1,
+                colortype: "红色",
+                active: true
+            }, {
+                id: 2,
+                colortype: "绿色",
+                active: false
+            }, {
+                id: 3,
+                colortype: "黄色",
+                active: false
+            }, {
+                id: 4,
+                colortype: "黄色",
+                active: false
+            }, {
+                id: 5,
+                colortype: "黄色",
+                active: false
+            }, {
+                id: 6,
+                colortype: "黄色",
+                active: false
+            }, {
+                id: 7,
+                colortype: "黄色",
+                active: false
+            }]
+        },
+        navList: [{
+            text: "商品详情",
+            active: true
+        }, {
+            text: "商品参数",
+            active: false
+        }]
+    }
+    methods = {
+        changeType(index, e) {
+            //    console.log(index,e)
+            let color = this.data.detail.color;
+            for (var i = 0; i < color.length; i++) {
+                color[i].active = false;
+            }
+            color[index].active = true;
+            this.data.detail.color = color;
+            this.$apply();
+        },
+        toRules(e){
+            console.log(getCurrentPages())
+            wx.navigateTo({
+                url: '../groupRules/groupRules'
+            })
+        }
+    }
+}    
+</script>
