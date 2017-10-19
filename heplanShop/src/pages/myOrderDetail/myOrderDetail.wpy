@@ -1,0 +1,249 @@
+<style lang="less">
+page {
+  background: #f7f7f7;
+}
+// 地址
+.address {
+  display: flex;
+  background: #fff;
+  padding: 20rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+}
+
+.address_icon {
+  width: 100%;
+  width: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  image {
+    display: block;
+    width: 30rpx;
+    height: 40rpx;
+    flex-shrink: 0;
+  }
+}
+
+.address_info {
+  view:nth-of-type(1) {
+    margin-bottom: 8rpx;
+    text {
+      display: inline-block;
+      margin-right: 20rpx;
+    }
+  }
+}
+
+// 订单信息
+.order_list {
+  .list_nav {
+    display: flex;
+    justify-content: space-between;
+    height: 90rpx;
+    line-height: 90rpx;
+    background: #fff;
+    padding: 0 20rpx;
+    position: relative;
+    button {
+      display: inline-block;
+      padding: 0;
+      margin: 0;
+      height: 88rpx;
+      font-size: 26rpx;
+      line-height: 90rpx;
+      background: #fff;
+    }
+    button:after {
+      display: none;
+    }
+  }
+}
+
+.order_item {
+  display: flex;
+  padding:20rpx;
+  background:#fff;
+  position: relative;
+  .img {
+    width: 150rpx;
+    height: 150rpx;
+    image {
+      width: 150rpx;
+      height: 150rpx;
+    }
+  }
+  .order_info{
+      flex:1;
+      padding-left: 20rpx;
+      view:nth-of-type(2){
+          color: #999;
+      }
+  }
+  .num_info{
+      width: 200rpx;
+      text-align: right;
+      view:nth-of-type(1){
+          text-decoration: line-through;
+          color: #999;
+      }
+  }
+}
+
+.pay_box{
+    .payable{
+       view{
+           display:flex;
+           justify-content: space-between;
+           height: 80rpx;
+           line-height: 80rpx;
+           padding:0 20rpx;
+           background:#fff;
+           position: relative;
+           text{
+               display:block;
+           }
+       }
+    }
+    .real_pay{
+        display: flex;
+        justify-content: space-between;
+        height: 90rpx;
+        line-height: 90rpx;
+        background: #fff;
+        padding:0 20rpx;
+        font-weight: bold;
+        margin-bottom: 20rpx;
+    }
+}
+
+.pay_type{
+    width: 100%;
+    padding:0 20rpx;
+    height: 90rpx;
+    background: #fff;
+    line-height: 90rpx;
+    margin-bottom: 20rpx;
+}
+
+.order_info{
+    background: #fff;
+    padding:20rpx;
+    view{
+        height: 60rpx;
+        line-height: 60rpx;
+    }
+}
+
+.total{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100rpx;
+    background: #fff;
+    margin-top: 20rpx;
+    line-height: 100rpx;
+    padding:0 20rpx;
+    button{
+        background: #ff5777;
+        color: #fff;
+        height: 80rpx;
+        line-height: 80rpx;
+        font-size: 30rpx;
+        margin:0;
+    }
+    button:after{
+        display: none;
+    }
+    text{
+        color: #ff5777;
+        font-size: 40rpx;
+    }
+}
+
+</style>
+
+<template>
+<view class="container">
+    <!-- 地址 -->
+  <view class="address">
+      <view class="address_icon"><image src="https://qncdn.playonwechat.com/hepulanShop/myorder_orderdetail_address.png"></image></view>
+      <view class="address_info">
+          <view><text>{{persionInfo.name}}</text>{{persionInfo.phone}}</view>
+          <view>{{persionInfo.address}}</view>
+      </view>
+  </view>
+<!-- 订单信息 -->
+<view class="order_list">
+    <view class="list_nav border_bottom"><view>禾葡兰</view><button open-type="contact">联系商家</button></view>
+    <view class="order_item border_bottom" wx:for="{{orderList}}">
+        <view class="img"><image src="{{item.img}}"></image></view>
+        <view class="order_info">
+            <view>{{item.name}}</view>
+            <view>{{item.color}}</view>
+        </view>
+        <view class="num_info">
+            <view>￥{{item.oldprice}}</view>
+            <view>￥{{item.price}}</view>
+            <view>x{{item.num}}</view>
+        </view>
+    </view>
+    <!-- 商品金额相关 -->
+    <view class="pay_box">
+        <view class="payable">
+            <view><text>商品应付金额：</text><text>{{payables}}</text></view>
+            <view class="border_bottom"><text>快递运费：全国包邮</text><text>￥{{express_rpice}}</text></view>
+        </view>
+        <view class="real_pay"><text>实付金额（含运费）</text><text>￥{{real_payment}}</text></view>
+    </view>
+    <view class="pay_type">支付方式：微信</view>
+    <view class="order_info">
+        <view>订单编号：{{order_num}}</view>
+        <view>下单时间：{{order_time}}</view>
+        <view>支付时间：{{pay_time}}</view>
+    </view>
+    <view class="total">
+        <view>总计：<text>{{all_money}}</text></view>
+        <button open-type="share">邀请参团</button>
+    </view>
+</view>
+</view>
+</template>
+
+
+<script>
+import wepy from "wepy";
+export default class extends wepy.page {
+  config = {
+    navigationBarTitleText: "订单详情",
+    navigationBarBackgroundColor: "#16382e",
+    navigationBarTextStyle: "#fff"
+  };
+
+  data = {
+    persionInfo: {
+      name: "小恶魔",
+      phone: 18376602598,
+      address: "广东深圳市龙岗区大运软件小镇"
+    },
+    orderList: [
+      {
+        id: 0,
+        img: "http://iph.href.lu/152x152",
+        oldprice: "12.58",
+        price: "1.99",
+        name: "阿尔卑斯棒棒糖糖果创意喜糖水果糖",
+        color: "图片色",
+        num: 2
+      }
+    ],
+    payables: 0.01,
+    express_rpice: "0.00",
+    real_payment: "0.01",
+    order_num: 69464613134564643213,
+    order_time: "2017-10-19 17:16:31",
+    pay_time: "2017-10-19 17:16:30",
+    all_money: "0.01"
+  };
+}
+</script>

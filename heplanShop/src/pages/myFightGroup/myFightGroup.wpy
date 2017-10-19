@@ -23,7 +23,6 @@ page{
    .list_item{
        width: 100%;
        background:#fff;
-       margin-bottom: 20rpx;
        .item_nav{
            width: 100%;
            height: 70rpx;
@@ -77,10 +76,7 @@ page{
                margin-left: 30rpx;
                font-size: 24rpx;
                display: inline-block;      
-               width: 116rpx;
-               height: 44rpx;
-               text-align: center;
-               line-height: 44rpx;
+               padding:8rpx 20rpx;
                border-radius: 4rpx;
            }
            navigator:nth-of-type(1){
@@ -108,8 +104,8 @@ page{
         <!-- 页面主体内容 -->
         <view class="list">
             <view class="list_item" wx:for="{{list}}">
-                <view class="item_nav border_bottom">{{item.order_status.text}}</view>
-                <navigator class="item_main" hover-class="none">
+                <view class="item_nav border_bottom">拼团成功</view>
+                <view class="item_main">
                     <image src="{{item.img}}"></image>
                     <view class="item_info">
                         <view>{{item.name}}</view>
@@ -117,11 +113,11 @@ page{
                         <view>￥{{item.price}}</view>
                     </view>
                     <view class="item_num">数量：x{{item.num}}</view>
-                </navigator>
+                </view>
                 <view class="item_total border_bottom">全国包邮合计：<text>￥50.00</text></view>
-                <view class="item_bottom_nav" wx:if="{{item.order_status.status=='2'?true:false}}">
-                    <navigator>取消订单</navigator>
-                    <navigator>付款</navigator>
+                <view class="item_bottom_nav">
+                    <navigator>拼团详情</navigator>
+                    <navigator>订单详情</navigator>
                 </view>
             </view>
         </view>
@@ -147,11 +143,15 @@ export default class extends wepy.page {
            active:false
        },{
            id:2,
-           text:"已付款",
+           text:"拼团中",
            active:false
        },{
            id:3,
-           text:"待收货",
+           text:"拼团成功",
+           active:false
+       },{
+           id:4,
+           text:"拼团失败",
            active:false
        }],
        list:[{
@@ -161,38 +161,7 @@ export default class extends wepy.page {
            oldprice:"198.00",
            price:"50.00",
            num:"3",
-           total:"300",
-           order_status:{
-               status:0,
-               text:"交易关闭",
-               time:"1080000"
-           }
-       },{
-           gid:0,
-           img:"http://iph.href.lu/152x152",
-           name:"禾葡兰丰润口红",
-           oldprice:"198.00",
-           price:"50.00",
-           num:"3",
-           total:"300",
-           order_status:{
-               status:1,
-               text:"交易成功",
-               time:"1080000"
-           }
-       },{
-           gid:0,
-           img:"http://iph.href.lu/152x152",
-           name:"禾葡兰丰润口红",
-           oldprice:"198.00",
-           price:"50.00",
-           num:"3",
-           total:"300",
-           order_status:{
-               status:2,
-               text:"待支付",
-               time:"1080000"
-           }
+           total:"300"
        }]
     }
 

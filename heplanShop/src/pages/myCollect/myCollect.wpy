@@ -1,0 +1,80 @@
+<style lang="less">
+page{
+    background:#f7f7f7;  
+}
+
+.collect_list{
+    width: 100%;
+    background:#fff;
+    display: flex;
+    padding:20rpx;
+    margin:10rpx 0;
+    .img image{
+        display: block;
+        width: 152rpx;
+        height: 152rpx;
+        margin-right: 20rpx;
+    }
+    .info{
+        font-size: 26rpx;
+        flex:1;
+        view:nth-of-type(1){
+            margin-bottom: 10rpx;
+        }
+        view:nth-of-type(2){
+            text-decoration: line-through;
+        }
+    }
+    .delete{
+        font-size: 20rpx;
+        color: #999;
+    }
+}
+
+</style>
+
+<template>
+<view class="container">
+    <view class="collect_list" wx:for="{{list}}">
+         <view class="img"><image src="{{item.img}}"></image></view>
+         <view class="info">
+             <view>{{item.name}}</view>
+             <view>￥{{item.oldprice}}</view>
+             <view>￥{{item.price}}</view>
+         </view>
+         <view class="delete">删除</view>
+    </view>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class extends wepy.page{
+    config = {
+        navigationBarTitleText: "我的收藏",
+        navigationBarBackgroundColor: '#16382e',
+        navigationBarTextStyle: '#fff'
+    }
+    data = {
+        list:[{
+          gid:0,
+          img:"http://iph.href.lu/152x152",
+          name:"美瞳赋活护理套装",
+          oldprice:"198.00",
+          price:"49.00"
+        },{
+          gid:0,
+          img:"http://iph.href.lu/152x152",
+          name:"美瞳赋活护理套装",
+          oldprice:"198.00",
+          price:"49.00"
+        },{
+          gid:0,
+          img:"http://iph.href.lu/152x152",
+          name:"美瞳赋活护理套装",
+          oldprice:"198.00",
+          price:"49.00"
+        }]
+    }
+} 
+</script>
