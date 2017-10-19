@@ -1,0 +1,346 @@
+<style lang="less">
+.item{
+    display: flex;
+    padding:20rpx;
+    align-items: center;
+    .item_img{
+        width: 370rpx;
+        height: 230rpx;
+        margin-right: 20rpx;
+    }
+    .item_img image{
+        width: 370rpx;
+        height: 230rpx;
+    }
+    .name{
+        margin-bottom:10rpx;
+    }
+    .price{
+        font-size: 28rpx;
+        margin-bottom: 10rpx;
+    }
+    .type{
+        color: #999;
+        margin-bottom: 10rpx;
+        font-size: 24rpx;
+    }
+    .num_box{
+        display:flex;
+        color: #999;
+        width: 160rpx;
+        height: 50rpx;
+        position: relative;
+        border-radius: 16rpx;
+        view:nth-of-type(1){
+            width: 50rpx;
+            height: 50rpx;
+            border-radius: 4rpx 0 0 4rpx;
+            font-size: 34rpx;
+            line-height: 44rpx;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rpx;
+            margin-left: 1rpx;
+        }
+        view:nth-of-type(1):before{
+            content:"";
+            height: 100%;
+            position: absolute;
+            border-left: 1px solid #d9d9d9;
+            transform: scaleX(.5);
+            right: 0;
+            top: 1px;
+        }
+        view:nth-of-type(2){
+            width: 60rpx;
+            height: 50rpx;
+            color: #333;
+            font-size: 26rpx;
+            line-height: 50rpx;
+            text-align:center;
+        }
+        view:nth-of-type(3){
+            width: 50rpx;
+            height: 50rpx;
+            border-radius:  0 4rpx 4rpx 0;
+            font-size: 34rpx;
+            line-height: 44rpx;
+            text-align: cneter;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rpx;
+            margin-left: 1rpx;
+        }
+        view:nth-of-type(3):before{
+            content:"";
+            height: 100%;
+            position: absolute;
+            border-left: 1px solid #d9d9d9;
+            transform: scaleX(.5);
+            left: 0;
+            top: 1px;
+        }
+        .disable{
+            background:#f5f5f9;
+            color: #d1d1d1;
+        }
+    }
+    .num_box:before{
+        content: "";
+        display: block;
+        width: 200%;
+        height: 200%;
+        border:1px solid #d9d9d9;
+        transform: scale(.5);
+        position: absolute;
+        left: 0;
+        top: 0;
+        border-radius: 16rpx;
+        transform-origin:0 0;
+    }
+}
+
+// 底部导航
+.bottom_nav{
+    width: 100%;
+    height: 134rpx;
+    background: #16382e;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    align-items:center;
+    left: 0;
+    bottom: 0;
+    color: #fff;
+    padding:0 30rpx;
+    .submite_order{
+        width: 200rpx;
+        height: 86rpx;
+        text-align: center;
+        line-height: 86rpx;
+        background:#0a7253;
+        border-radius:6rpx;
+    }
+    .nav_left{
+        view:nth-of-type(1){
+            font-size:26rpx;
+            margin-bottom:10rpx;
+            display:flex;
+            align-items:center;
+        }
+        view:nth-of-type(2){
+            font-size:36rpx;
+        }
+    }
+}
+</style>
+
+<template>
+    <view class="container">
+        <view class="item" wx:for="{{list}}">
+            <view><radio @tap="changeSelect({{index}})" color="#095a31" checked="{{item.select=='1'?true:false}}"/></view>
+            <view class="item_img">
+                <image src="{{item.img}}"></image>
+            </view>
+            <view>
+                <view class="name">{{item.name}}</view>
+                <view class="price">￥{{item.price}}</view>
+                <view class="type">{{item.type}}</view>
+                <view class="num_box">
+                    <view @tap="changeNum({{index}},0)"  class="{{item.num=='1'?'disable':''}}">-</view>
+                    <view>{{item.num}}</view>
+                    <view @tap="changeNum({{index}},1)">+</view>
+                </view>
+            </view>
+        </view>
+        <!-- 底部导航 -->
+        <view class="bottom_nav">
+            <view class="nav_left">
+                <view><radio color="#095a31" @tap="changeAllSelect" checked="{{Allselect=='1'?true:false}}"/>共{{count}}件商品</view>
+                <view>总计：￥{{Money}}</view>
+            </view>
+            <view class="submite_order">结算(包邮)</view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class extends wepy.page {
+    config = {
+        navigationBarTitleText: "购物车",
+        navigationBarBackgroundColor: '#16382e',
+        navigationBarTextStyle: '#fff'
+    }
+    data = {
+        list: [{
+            name: "倾慕丰润口红",
+            price: "99.99",
+            type: "天使绯红",
+            num: 1,
+            img: "http://iph.href.lu/370x230",
+            select: 1
+        },{
+            name: "倾慕丰润口红",
+            price: "99.99",
+            type: "天使绯红",
+            num: 5,
+            img: "http://iph.href.lu/370x230",
+            select: 1
+        },{
+            name: "倾慕丰润口红",
+            price: "99.99",
+            type: "天使绯红",
+            num: 5,
+            img: "http://iph.href.lu/370x230",
+            select: 1
+        }],
+        count:0,  //选中的商品数量
+        Money:0,   //选中的商品的总价格
+        Allselect:0   //商品是否全选
+    }
+
+    methods = {
+        // 修改商品数量
+        changeNum(index,e){
+            if(e>0){
+              this.list[index].num++;
+            }else if(this.list[index].num>1&&e<1){
+              this.list[index].num--;
+            }
+
+            this.count = this.countNum(this.list);
+            this.Money = this.countMoney(this.list);
+            this.$apply();
+        },
+        changeSelect(index){
+            let select = this.list[index].select;
+            this.list[index].select = select=='1'?'0':'1';
+            this.count = this.countNum(this.list);
+            this.Money = this.countMoney(this.list);
+            this.Allselect = this.allSelect(this.list);
+            this.$apply();
+        }
+    }
+    // 计算选中的商品总数
+    countNum(list){
+        let count = new Number();
+       for(let i=0;i<list.length;i++){
+           if(list[i].select>0){
+              count+= Number(list[i].num);
+           }
+       }
+       return count;
+    }
+    // 计算选中的商品的总金额
+    countMoney(list){
+       let money = new Number();
+       for(let i=0;i<list.length;i++){
+           if(list[i].select>0){
+               money += Number(list[i].price)*Number(list[i].num)
+           }
+       }
+       return money.toFixed(2);
+    }
+    // 判断是否全部选中
+    allSelect(list){
+        let isAllSelect = 0;
+        let arr = [];
+        for(let i=0;i<list.length;i++){
+            arr.push(Number(list[i].select));
+        }
+        isAllSelect = arr.indexOf(0)<0?1:0
+        return isAllSelect;
+    }
+    // 修改全选状态
+    changeAllSelect(){
+       if(this.Allselect>0){
+           for(let i=0;i<this.list.length;i++){
+               this.list[i].select = 0;
+           }
+       }else{
+           for(let i=0;i<this.list.length;i++){
+               this.list[i].select = 1;
+           }
+       }
+        this.count = this.countNum(this.list);
+        this.Money = this.countMoney(this.list);
+        this.Allselect = this.allSelect(this.list);
+        this.$apply();
+    }
+
+    // 页面显示加载初始数据
+    onShow(){
+        this.count = this.countNum(this.list);
+        this.Money = this.countMoney(this.list);
+        this.Allselect = this.allSelect(this.list);
+        console.log(this.Allselect);
+        this.$apply();
+    }
+
+    
+
+    // touchS: function(e) {
+    //     if(e.touches.length == 1) {// console.log(e.touches[0].clientX);
+
+    //         this.setData({//设置触摸起始点水平方向位置
+
+    //             startX: e.touches[0].clientX
+    //         });
+    //     }
+    // }
+    // touchM: function(e) {
+    //     if(e.touches.length == 1) {//手指移动时水平方向位置
+
+    //         var moveX = e.touches[0].clientX;//手指起始点位置与移动期间的差值
+
+    //         var disX = this.data.startX - moveX;
+    //         var delBtnWidth = this.data.delBtnWidth;
+    //         var txtStyle = "";
+    //         if (disX == 0 || disX < 0) { //如果移动距离小于等于0，文本层位置不变
+    //             txtStyle = "left:0px";
+    //         } else if (disX > 0) { //移动距离大于0，文本层left值等于手指移动距离
+    //             txtStyle = "left:-" + disX + "rpx";
+    //             if (disX >= delBtnWidth) {//控制手指移动距离最大值为删除按钮的宽度
+
+    //                 txtStyle = "left:-" + delBtnWidth + "rpx";
+    //             }
+    //         }//获取手指触摸的是哪一项
+
+    //         var index = e.currentTarget.dataset.index;
+    //         console.log(index);
+    //         var list = this.data.list;
+    //         list[index].txtStyle = txtStyle;//更新列表的状态
+
+    //         this.setData({
+    //             list: list
+    //         });
+    //     }
+    // }
+
+    // touchE: function(e) {
+    //     if(e.changedTouches.length == 1) { //手指移动结束后水平位置
+
+    //         var endX = e.changedTouches[0].clientX; //触摸开始与结束，手指移动的距离
+
+    //         var disX = this.data.startX - endX;
+    //         var delBtnWidth = this.data.delBtnWidth; //如果距离小于删除按钮的1/2，不显示删除按钮
+
+    //         var txtStyle = disX > delBtnWidth / 2 ? "left:-" + delBtnWidth + "rpx" : "left:0rpx";//获取手指触摸的是哪一项
+
+    //         var index = e.currentTarget.dataset.index;
+    //         var list = this.data.list;
+    //         list[index].txtStyle = txtStyle;//更新列表的状态
+
+    //         this.setData({
+    //             list: list
+    //         });
+    //     }
+    // }
+
+}   
+</script>

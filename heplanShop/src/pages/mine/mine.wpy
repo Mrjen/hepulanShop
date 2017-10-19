@@ -1,14 +1,178 @@
-<style>
+<style lang="less">
+page{
+    background:#c1e1de;
+}
+// 个人信息
+.info {
+    width: 750rpx;
+    height: 278rpx;
+    background: url(https://qncdn.playonwechat.com/hepulanShop/mine_top_bg.png);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-size: 100% 100%;
+    align-items: center;
+    .persion_img {
+        width: 144rpx;
+        height: 144rpx;
+        border: 2px solid #fff;
+        margin-bottom: 16rpx;
+        image {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            border: 5px solid #254d41;
+        }
+    }
+    .name {
+        text-align: center;
+        color: #fff;
+    }
+}
 
+// 我的订单
+.my_order {
+    width: 100%;
+    height: 114rpx;
+    border-top: 10rpx solid #c1e1de;
+    border-bottom: 10rpx solid #c1e1de;
+    line-height: 94rpx;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20rpx;
+    box-sizing: border-box;
+    background:#fff;
+    text:nth-of-type(2) {
+        color: #666;
+        font-size: 26rpx;
+        margin-right: 40rpx;
+        position: relative;
+    }
+    text:nth-of-type(2):before {
+        display: block;
+        content: '';
+        position: absolute;
+        right: -15px;
+        top: 50%;
+        margin-top:-5px;
+        width: 10px;
+        height: 10px;
+        border-top: solid 1px currentColor;
+        border-right: solid 1px currentColor;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+}
+
+// 订单状态
+.order_status{
+    display:flex;
+    padding:30rpx 20rpx;
+    border-bottom:10rpx solid #c1e1de;
+    background:#fff;
+    navigator{
+        display:flex;
+        flex:1;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        image{
+            display: block;
+            width:60rpx;
+            height: 60rpx;
+            margin:0 auto;
+        }
+        .msg{
+            width: 40rpx;
+            height: 40rpx;
+            background:red;
+            color: #fff;
+            font-size: 24rpx;
+            line-height: 40rpx;
+            text-align:center;
+            border-radius: 50%;
+            position: absolute;
+            top:0;
+            right: 40rpx;
+        }
+    }
+}
+
+.other_list{
+    width: 750rpx;
+    height: 544rpx;
+    background:url(https://qncdn.playonwechat.com/hepulanShop/mine_icon_list.png);
+    background-size:100% 100%;
+    navigator{
+        width:750rpx;
+        height: 115rpx;
+        margin-bottom:8rpx;
+    }
+}
 </style>
 
 <template>
-  
+    <view class="container">
+        <!-- 个人信息 -->
+        <view class="info">
+            <view class="persion_img">
+                <image src="http://iph.href.lu/300x300"></image>
+            </view>
+            <view class="name">小恶魔</view>
+        </view>
+        <!-- 我的订单 -->
+        <navigator class="my_order" url="../index/index" hover-class="none">
+            <text>我的订单</text>
+            <text>查看全部订单</text>
+        </navigator>
+        <!-- 订单状态 -->
+        <view class="order_status">
+            <navigator wx:for="{{navList}}" url="" hover-class="none">
+                <image src="{{item.icon}}"></image>
+                <view>{{item.text}}</view>
+                <view class="msg" wx:if="{{item.msg>0?true:false}}">{{item.msg}}</view>
+            </navigator>
+        </view>
+        <!-- 其他功能 -->
+        <view class="other_list">
+            <navigator url="" hover-class="none"></navigator>
+            <navigator url="" hover-class="none"></navigator>
+            <navigator url="" hover-class="none"></navigator>
+        </view>
+    </view>
 </template>
 
 <script>
 import wepy from 'wepy'
-export default class extends wepy.page{
-   
+export default class extends wepy.page {
+    config = {
+        navigationBarTitleText: "个人中心",
+        navigationBarBackgroundColor: '#16382e',
+        navigationBarTextStyle: '#fff'
+    }
+    data = {
+       navList:[{
+           id:0,
+           text:"待付款",
+           icon:"https://qncdn.playonwechat.com/hepulanShop/mine_icon_nopay.png",
+           msg:1
+       },{
+           id:1,
+           text:"代发货",
+           icon:"https://qncdn.playonwechat.com/hepulanShop/mine_icon_noship.png",
+           msg:0
+       },{
+           id:2,
+           text:"待收货",
+           icon:"https://qncdn.playonwechat.com/hepulanShop/mine_icon_noreceipt.png",
+           msg:1
+       },{
+           id:3,
+           text:"已完成",
+           icon:"https://qncdn.playonwechat.com/hepulanShop/mine_icon_hascarryout.png",
+           msg:0
+       }]
+    }
 }    
 </script>

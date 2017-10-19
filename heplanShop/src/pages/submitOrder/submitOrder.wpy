@@ -66,6 +66,14 @@ page {
             font-size: 26rpx;
             padding: 0;
             margin: 0;
+            display: flex;
+            align-items: center;
+            image{
+                display: block;
+                width: 30rpx;
+                height: 30rpx;
+                margin-right: 10rpx;
+            }
         }
         .call_mine:after {
             display: none;
@@ -76,7 +84,7 @@ page {
     }
     .product_list {
         display: flex;
-        margin-bottom:20rpx;
+        margin-bottom: 20rpx;
         .product_img {
             width: 344rpx;
             height: 208rpx;
@@ -84,25 +92,84 @@ page {
             margin-right: 20rpx;
         }
         .product_info {
-            flex:1;
-            .product_name{
+            flex: 1;
+            .product_name {
                 margin-bottom: 10rpx;
             }
             .type {
                 font-size: 30rpx;
                 display: flex;
                 justify-content: space-between;
-                .type_info{
+                .type_info {
                     display: flex;
-                    view:nth-of-type(1){
+                    view:nth-of-type(1) {
                         margin-right: 20rpx;
                     }
                 }
             }
         }
     }
-    .express{
-        display:felx;
+}
+
+.container .express_box {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 80rpx;
+    position: relative;
+    background: #fff;
+    line-height: 80rpx;
+    padding: 0 20rpx;
+}
+
+.msg{
+    width: 100%;
+    height: 180rpx;
+    background:#fff;
+    display: flex;
+    align-items: center;
+    margin-bottom:160rpx;
+    textarea{
+        display: block;
+        width: 676rpx;
+        height: 120rpx;
+        margin:0 auto;
+        border-radius: 6rpx;
+        background: #eaeaea;
+        box-sizing: border-box;
+        padding:20rpx;
+    }
+}
+
+// 底部导航
+.bottom_nav{
+    width: 100%;
+    height: 134rpx;
+    background: #16382e;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    align-items:center;
+    left: 0;
+    bottom: 0;
+    color: #fff;
+    padding:0 30rpx;
+    .submite_order{
+        width: 200rpx;
+        height: 86rpx;
+        text-align: center;
+        line-height: 86rpx;
+        background:#0a7253;
+        border-radius:6rpx;
+    }
+    .nav_left{
+        view:nth-of-type(1){
+            font-size:26rpx;
+            margin-bottom:10rpx;
+        }
+        view:nth-of-type(2){
+            font-size:36rpx;
+        }
     }
 }
 
@@ -127,7 +194,7 @@ page {
         <view class="order_info">
             <view class="nav">
                 <text>禾葡兰</text>
-                <button class="call_mine">联系我们</button>
+                <button class="call_mine" open-type="contact"><image src="https://qncdn.playonwechat.com/hepulanShop/submit_order_lianxi.png"></image>联系我们</button>
             </view>
             <view class="product_list" wx:for="{{product}}">
                 <image class="product_img" src="{{item.img}}"></image>
@@ -144,7 +211,31 @@ page {
             </view>
         </view>
         <!-- 快递及其他 -->
-        <view class="express"><view>快递运费：<text>全国包邮</text></view><view>￥0.00</view></view>
+        <view class="express">
+            <view class="express_box border_top border_bottom">
+                <view>快递运费：
+                    <text>全国包邮</text>
+                </view>
+                <view>￥0.00</view>
+            </view>
+            <view class="express_box border_bottom">
+                <view>店铺合计：
+                    <text></text>
+                </view>
+                <view>￥999.00</view>
+            </view>
+            <view class="msg">
+                <textarea placeholder="有什么想对我们说的可以写在这里哦~"></textarea>
+            </view>
+        </view>
+        <!-- 底部导航 -->
+        <view class="bottom_nav">
+            <view class="nav_left">
+                <view>共1件商品</view>
+                <view>总计：￥19.99</view>
+            </view>
+            <view class="submite_order">提交订单</view>
+        </view>
     </view>
 </template>
 
@@ -162,14 +253,14 @@ export default class extends wepy.page {
             phone: "15972596959",
             address: "广东省深圳市大运软件小镇101"
         },
-        product:[{
+        product: [{
             img: "http://iph.href.lu/344x208",
             name: "禾葡兰化妆品装饰包包",
             type: "天蓝色",
             num: 2,
             oldprice: 39.9,
             price: 19.9
-        },{
+        }, {
             img: "http://iph.href.lu/344x208",
             name: "禾葡兰化妆装饰包包",
             type: "天蓝色",

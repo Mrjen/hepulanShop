@@ -18,20 +18,34 @@ view {
   position: absolute;
   left: 0;
   bottom: 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid currentColor;
   transform: translateY(.5);
   width: 100%;
+  opacity: .1;
 }
 
-.border_top:before {
+.border_top:after {
   content: " ";
   position: absolute;
   left: 0;
   top: 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid currentColor;
   transform: translateY(.5);
   width: 100%;
+  opacity: .1;
 }
+
+.border_left:after{
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-left: 1px solid currentColor;
+  transform: translateX(.5);
+  height: 100%;
+  opacity: .1;
+}
+
 </style>
 
 <script>
@@ -41,13 +55,15 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
+      "pages/myOrder/myOrder",
+      'pages/mine/mine',
+      'pages/shopCart/shopCart',
       'pages/submitOrder/submitOrder',
       'pages/fightDetail/fightDetail',
       'pages/groupRules/groupRules',
       
       'pages/fightGroup/fightGroup',
       'pages/index/index',
-      'pages/mine/mine',
       'pages/demo'
     ],
     window: {
@@ -66,6 +82,11 @@ export default class extends wepy.app {
         text: "首页",
         iconPath:"images/tabbar_icon_home.png",
         selectedIconPath:"images/tabbar_icon_home_active.png"
+      },{
+        pagePath: "pages/shopCart/shopCart",
+        text: "购物车",
+        iconPath:"images/tabbar_icon_shopcart.png",
+        selectedIconPath:"images/tabbar_icon_shopcart_active.png"
       },{
         pagePath: "pages/mine/mine",
         text: "个人中心",

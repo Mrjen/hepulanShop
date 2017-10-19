@@ -1,0 +1,178 @@
+<style lang="less">
+page{
+    background:#f7f7f7;
+}
+// 页面导航
+.page_nav{
+    width: 100%;
+    height: 90rpx;
+    background: #fff;
+    display:flex;
+    margin-bottom: 20rpx;
+    view{
+        flex:1;
+        text-align: center;
+        line-height: 90rpx;
+    }
+    .active{
+        border-bottom:2px solid #16382e;
+    }
+}
+
+.list{
+   .list_item{
+       width: 100%;
+       background:#fff;
+       .item_nav{
+           width: 100%;
+           height: 70rpx;
+           line-height: 70rpx;
+           padding:0 20rpx;
+           position: relative;
+           font-size: 26rpx;
+       }
+       .item_main{
+           display:flex;
+           padding:20rpx;
+           justify-content: space-between;
+           image{
+               width: 152rpx;
+               height: 152rpx;
+               display:block;
+           }
+           .item_info{
+               flex:1;
+               padding-left: 20rpx;
+               view:nth-of-type(1){
+                   margin-bottom:10rpx;
+               }
+               view:nth-of-type(2){
+                   margin-bottom:10rpx;
+                   font-size: 26rpx;
+                   text-decoration: line-through;
+               }
+               view:nth-of-type(3){
+                   margin-bottom:10rpx;
+                   font-size: 26rpx;
+               }
+           }
+       }
+       .item_total{
+           text-align: right;
+           padding:0 20rpx 20rpx 0;
+           font-size: 26rpx;
+           position: relative;
+           text{
+               color: red;
+           }
+       }
+       .item_bottom_nav{
+           display: flex;
+           justify-content: flex-end;
+           padding:0 20rpx;
+           height: 80rpx;
+           align-items: center;
+           navigator{
+               margin-left: 30rpx;
+               font-size: 24rpx;
+               display: inline-block;      
+               padding:8rpx 20rpx;
+               border-radius: 4rpx;
+           }
+           navigator:nth-of-type(1){
+               border:1px solid #17382f;
+               color: #17382f;
+           }
+           navigator:nth-of-type(2){
+               background:#17382f;
+               color: #fff;
+           }
+       }
+   }
+}
+
+// 页面主体内容
+
+</style>
+
+<template>
+    <view class="container">
+        <!-- 顶部导航 -->
+        <view class="page_nav">
+            <view wx:for="{{pageNav}}" class="{{item.active?'active':''}}" wx:key="index" @tap="changeNav({{index}})">{{item.text}}</view>
+        </view>
+        <!-- 页面主体内容 -->
+        <view class="list">
+            <view class="list_item" wx:for="{{list}}">
+                <view class="item_nav border_bottom">拼团成功</view>
+                <view class="item_main">
+                    <image src="{{item.img}}"></image>
+                    <view class="item_info">
+                        <view>{{item.name}}</view>
+                        <view>￥{{item.oldprice}}</view>
+                        <view>￥{{item.price}}</view>
+                    </view>
+                    <view class="item_num">数量：x{{item.num}}</view>
+                </view>
+                <view class="item_total border_bottom">全国包邮合计：<text>￥50.00</text></view>
+                <view class="item_bottom_nav">
+                    <navigator>拼团详情</navigator>
+                    <navigator>订单详情</navigator>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class extends wepy.page {
+    config = {
+        navigationBarTitleText: "我的订单",
+        navigationBarBackgroundColor: '#16382e',
+        navigationBarTextStyle: '#fff'
+    }
+    data = {
+       pageNav:[{
+           id:0,
+           text:"全部",
+           active:true
+       },{
+           id:1,
+           text:"待付款",
+           active:false
+       },{
+           id:2,
+           text:"拼团中",
+           active:false
+       },{
+           id:3,
+           text:"拼团成功",
+           active:false
+       },{
+           id:4,
+           text:"拼团失败",
+           active:false
+       }],
+       list:[{
+           gid:0,
+           img:"http://iph.href.lu/152x152",
+           name:"禾葡兰丰润口红",
+           oldprice:"198.00",
+           price:"50.00",
+           num:"3",
+           total:"300"
+       }]
+    }
+
+    methods = {
+        changeNav(index){
+            for(let i=0;i<this.pageNav.length;i++){
+                this.pageNav[i].active = false;
+            }
+            this.pageNav[index].active = true;
+            this.$apply();
+        }
+    }
+}   
+</script>
