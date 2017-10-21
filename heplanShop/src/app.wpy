@@ -55,6 +55,7 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/index/index',
       'pages/myOrderDetail/myOrderDetail',
       "pages/myOrder/myOrder",
       'pages/myFightGroup/myFightGroup',
@@ -68,7 +69,7 @@ export default class extends wepy.app {
       'pages/shopCart/shopCart',
       'pages/submitOrder/submitOrder',
       'pages/groupRules/groupRules',
-      'pages/index/index',
+      
       'pages/demo'
     ],
     window: {
@@ -112,6 +113,24 @@ constructor() {
 
 onLaunch() {
   this.testAsync()
+  wx.login({
+    success(res){
+      console.log(res)
+      let url = "https://hepulan-mall.playonwechat.com/shop/User/registry"
+      wx.request({
+        url:`${url}?code=${res.code}`,
+        success(res){
+          console.log(res)
+        }
+      });
+    }
+  })
+}
+
+async onLoad() {
+    let e = await wepy.login();
+    console.log(e)
+    this.userInfo = await wepy.getUserInfo();
 }
 
 sleep(s) {
@@ -139,5 +158,9 @@ getUserInfo(cb) {
     }
   })
 }
+
+
+
+
 }
 </script>
