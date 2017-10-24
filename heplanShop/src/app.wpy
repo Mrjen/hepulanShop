@@ -19,9 +19,9 @@ view {
   left: 0;
   bottom: 0;
   border-bottom: 1px solid currentColor;
-  transform: translateY(.5);
+  transform: translateY(0.5);
   width: 100%;
-  opacity: .1;
+  opacity: 0.1;
 }
 
 .border_top:after {
@@ -30,137 +30,140 @@ view {
   left: 0;
   top: 0;
   border-bottom: 1px solid currentColor;
-  transform: translateY(.5);
+  transform: translateY(0.5);
   width: 100%;
-  opacity: .1;
+  opacity: 0.1;
 }
 
-.border_left:after{
+.border_left:after {
   content: " ";
   position: absolute;
   left: 0;
   top: 0;
   border-left: 1px solid currentColor;
-  transform: translateX(.5);
+  transform: translateX(0.5);
   height: 100%;
-  opacity: .1;
+  opacity: 0.1;
 }
-
 </style>
 
 <script>
-import wepy from 'wepy'
-import 'wepy-async-function'
+import wepy from "wepy";
+import "wepy-async-function";
 
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index/index',
-      'pages/myOrderDetail/myOrderDetail',
+      "pages/mine/mine",
+      "pages/index/index",
+      "pages/myOrderDetail/myOrderDetail",
       "pages/myOrder/myOrder",
-      'pages/myFightGroup/myFightGroup',
-      'pages/inviteFight/inviteFight',
-      'pages/fightGroup/fightGroup',
-      
-      'pages/fightDetail/fightDetail',
+      "pages/myFightGroup/myFightGroup",
+      "pages/inviteFight/inviteFight",
+      "pages/fightGroup/fightGroup",
+
+      "pages/fightDetail/fightDetail",
       "pages/myCollect/myCollect",
+
       
-      'pages/mine/mine',
-      'pages/shopCart/shopCart',
-      'pages/submitOrder/submitOrder',
-      'pages/groupRules/groupRules',
-      
-      'pages/demo'
+      "pages/shopCart/shopCart",
+      "pages/submitOrder/submitOrder",
+      "pages/groupRules/groupRules",
+
+      "pages/demo"
     ],
     window: {
-      backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: '禾葡兰护肤商城',
-      navigationBarTextStyle: 'black'
+      backgroundTextStyle: "light",
+      navigationBarBackgroundColor: "#fff",
+      navigationBarTitleText: "禾葡兰护肤商城",
+      navigationBarTextStyle: "black"
     },
     tabBar: {
-      backgroundColor:"#16382e",
-      borderStyle:"black",
+      backgroundColor: "#16382e",
+      borderStyle: "black",
       color: "#fff",
       selectedColor: "#ffba00",
-      list: [{
-        pagePath: "pages/index/index",
-        text: "首页",
-        iconPath:"images/tabbar_icon_home.png",
-        selectedIconPath:"images/tabbar_icon_home_active.png"
-      },{
-        pagePath: "pages/shopCart/shopCart",
-        text: "购物车",
-        iconPath:"images/tabbar_icon_shopcart.png",
-        selectedIconPath:"images/tabbar_icon_shopcart_active.png"
-      },{
-        pagePath: "pages/mine/mine",
-        text: "个人中心",
-        iconPath:"images/tabbar_icon_mine.png",
-        selectedIconPath:"images/tabbar_icon_mine_active.png"
-      }]
+      list: [
+        {
+          pagePath: "pages/index/index",
+          text: "首页",
+          iconPath: "images/tabbar_icon_home.png",
+          selectedIconPath: "images/tabbar_icon_home_active.png"
+        },
+        {
+          pagePath: "pages/shopCart/shopCart",
+          text: "购物车",
+          iconPath: "images/tabbar_icon_shopcart.png",
+          selectedIconPath: "images/tabbar_icon_shopcart_active.png"
+        },
+        {
+          pagePath: "pages/mine/mine",
+          text: "个人中心",
+          iconPath: "images/tabbar_icon_mine.png",
+          selectedIconPath: "images/tabbar_icon_mine_active.png"
+        }
+      ]
+    }
+  };
+
+  globalData = {
+    userInfo: null
+  };
+
+  constructor() {
+    super();
+    this.use("requestfix");
   }
-}
 
-globalData = {
-  userInfo: null
-}
-
-constructor() {
-  super()
-  this.use('requestfix')
-}
-
-onLaunch() {
-  this.testAsync()
-  wx.login({
-    success(res){
-      console.log(res)
-      let url = "https://hepulan-mall.playonwechat.com/shop/User/registry"
-      wx.request({
-        url:`${url}?code=${res.code}`,
-        success(res){
-          console.log(res)
+  onLaunch() {
+    this.testAsync();
+    this.getUserInfo();
+    return new Promise((resolve, reject) => {
+      wepy.login({
+        success(res) {
+          console.log(res);
+          let url = "https://hepulan-mall.playonwechat.com/shop/User/registry";
+          wx.request({
+            url: `${url}?code=${res.code}`,
+            success(res) {
+              resolve(res);
+              wepy.setStorageSync("uid", res.data.uid);
+            }
+          });
         }
       });
-    }
-  })
-}
-
-async onLoad() {
-    let e = await wepy.login();
-    console.log(e)
-    this.userInfo = await wepy.getUserInfo();
-}
-
-sleep(s) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve('promise resolved')
-    }, s * 1000)
-  })
-}
-
-async testAsync() {
-  const data = await this.sleep(3)
-  console.log(data)
-}
-
-getUserInfo(cb) {
-  const that = this
-  if (this.globalData.userInfo) {
-    return this.globalData.userInfo
+    });
   }
-  wepy.getUserInfo({
-    success(res) {
-      that.globalData.userInfo = res.userInfo
-      cb && cb(res.userInfo)
+
+  sleep(s) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve("promise resolved");
+      }, s * 1000);
+    });
+  }
+
+  getUserInfo(cb) {
+    const that = this;
+    if (this.globalData.userInfo) {
+      return this.globalData.userInfo;
     }
-  })
-}
+    wepy.getUserInfo({
+      success(res) {
+        console.log(res.userInfo);
+        wepy.setStorageSync("nickName",res.userInfo.nickName);
+        wepy.setStorageSync("avatarUrl",res.userInfo.avatarUrl)
+        that.globalData.userInfo = res.userInfo;
+        cb && cb(res.userInfo);
+      }
+    });
+  }
 
-
-
-
+  async testAsync() {
+    const data = await this.sleep(3);
+    console.log(data);
+    // const e = await this.onLaunch();
+    // console.log(e,3333)
+  }
 }
 </script>

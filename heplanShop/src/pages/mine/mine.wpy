@@ -117,9 +117,9 @@ page{
         <!-- 个人信息 -->
         <view class="info">
             <view class="persion_img">
-                <image src="http://iph.href.lu/300x300"></image>
+                <image src="{{userInfo.avatarUrl}}"></image>
             </view>
-            <view class="name">小恶魔</view>
+            <view class="name">{{userInfo.nickName}}</view>
         </view>
         <!-- 我的订单 -->
         <navigator class="my_order" url="../index/index" hover-class="none">
@@ -172,7 +172,19 @@ export default class extends wepy.page {
            text:"已完成",
            icon:"https://qncdn.playonwechat.com/hepulanShop/mine_icon_hascarryout.png",
            msg:0
-       }]
+       }],
+       userInfo:{}
+    }
+
+    onShow(){
+        let that = this;
+        let userInfo = {
+            nickName:wepy.getStorageSync("nickName"),
+            avatarUrl:wepy.getStorageSync("avatarUrl")
+        }
+        that.userInfo = userInfo;
+        that.$apply();
+        console.log(userInfo)
     }
 }    
 </script>

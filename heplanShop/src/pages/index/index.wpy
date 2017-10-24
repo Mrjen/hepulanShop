@@ -3,6 +3,25 @@ page {
   width: 750rpx;
 }
 
+/* banner */
+.swiper {
+  width: 100%;
+  height: 324rpx;
+}
+
+.swiper image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.swiper swiper-item {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* 页面 */
 .search_box {
   width: 100%;
   height: 110rpx;
@@ -179,14 +198,24 @@ page {
             <view class="search_btn"></view>
         </view>
         <!-- 轮播 -->
-        <swiper></swiper>
+        <swiper class="swiper" indicator-dots="true" 
+            autoplay="true" 
+            interval="5000" 
+            duration="1000">    
+        <repeat wx:for="{{imgUrls}}" wx:key="index">
+            <swiper-item>
+                <image src="{{item.image}}" class="slide-image"/>
+            </swiper-item>
+        </repeat>
+    </swiper>
+
         <!-- 商品列表 -->
         <navigator class="product_row" url="../fightGroup/fightGroup">
             <scroll-view scroll-x="true">
                 <view class="product_in">
                     <view class="item" wx:for="{{productRow}}" wx:key="index">
-                        <image src="{{item.img}}"></image>
-                        <text>{{item.text}}</text>
+                        <image src="{{item.logo}}"></image>
+                        <text>{{item.name}}</text>
                     </view>
                 </view>
             </scroll-view>
@@ -197,130 +226,145 @@ page {
             </view>
         </navigator>
         <!-- 女人街  -->
-        <view class="product_list">
+        <repeat wx:for="{{productList}}">
+           <view class="product_list">
             <view class="productNav flex">
                 <view class="nav_item" @tap="changeNav({{index}})" wx:for="{{productNav}}" wx:key="index" style="background:{{item.active?'#17392f':''}};color:{{item.active?'#fff':''}}">{{item.text}}</view>
             </view>
             <!-- 商品 -->
-            <view class="item_product flex" wx:for="{{productList}}" wx:key="index" style="background-image:url({{item.img}})">
-                <view>{{item.name}}</view>
-                <view>￥{{item.price}}</view>
+            <view class="item_product flex" wx:for="{{item.goods}}" wx:for-item="goods" wx:key="index" style="background-image:url({{goods.logo}})">
+                <view>{{goods.name}}</view>
+                <view>￥{{goods.price}}</view>
                 <button class="buy">立即购买</button>
             </view>
         </view>
+        </repeat>
+        
     </view>
 </template>
 
 <script>
+import wepy from "wepy";
+import Swiper from "../../components/swiper";
+import comm from "../../comm/comm";
+import tip from "../../comm/tip";
 
-import wepy from 'wepy'
-import Swiper from '../../components/swiper'
-import comm from '../../comm/comm'
-import tip from '../../comm/tip'
-
-import wxRequest from '../../comm/wxRequest'
-import api from '../../api/api'
-
+import wxRequest from "../../comm/wxRequest";
+import api from "../../api/api";
 export default class extends wepy.page {
-    config = {
-        navigationBarTitleText: "禾葡兰护肤商城",
-        navigationBarBackgroundColor: '#16382e',
-        navigationBarTextStyle: '#fff'
-    }
-    data = {
-        productRow: [{
-            img: "http://iph.href.lu/230x176",
-            text: "修红舒润面膜"
-        }, {
-            img: "http://iph.href.lu/230x176",
-            text: "修红舒润面膜"
-        }, {
-            img: "http://iph.href.lu/230x176",
-            text: "修红舒润面膜"
-        }],
-        productNav: [{
-            text: "最热",
-            active: true
-        }, {
-            text: "最新",
-            active: false
-        }],
-        productList:[{
-            img:"http://iph.href.lu/704x220",
-            name:"倾慕丰润口红",
-            price:"380"
-        },{
-            img:"http://iph.href.lu/704x220",
-            name:"倾慕丰润口红",
-            price:"380"
-        },{
-            img:"http://iph.href.lu/704x220",
-            name:"倾慕丰润口红",
-            price:"380"
-        }],
-        pageTime:"00:00:00"
-    }
-    components = {
-        swiper: Swiper
-    }
-    methods = {
-        changeNav(e) {
-            let productNav = this.productNav;
-            for (var i = 0; i < productNav.length; i++) {
-                productNav[i].active = false; 
-            }
-            productNav[e].active = true;
-            this.productNav = productNav;
-            this.$apply();
-        },
-        searchSubmit(){
-            console.log("搜索了")
-        }
-    }
+  config = {
+    navigationBarTitleText: "禾葡兰护肤商城",
+    navigationBarBackgroundColor: "#16382e",
+    navigationBarTextStyle: "#fff"
+  };
 
-    onShow(){
-       console.log("show");
-        // 测试请求
-        comm.wxRequest({query:{page:1,data:1}},api.Home,function(res) {
-            console.log(res)
-        });
+  data = {
+    productRow: [],
+    productNav: [
+      {
+        text: "最热",
+        active: true
+      },
+      {
+        text: "最新",
+        active: false
+      }
+    ],
+    productList: [
+      {
+        img: "http://iph.href.lu/704x220",
+        name: "倾慕丰润口红",
+        price: "380"
+      },
+      {
+        img: "http://iph.href.lu/704x220",
+        name: "倾慕丰润口红",
+        price: "380"
+      },
+      {
+        img: "http://iph.href.lu/704x220",
+        name: "倾慕丰润口红",
+        price: "380"
+      }
+    ],
+    pageTime: "00:00:00",
+    imgUrls: []
+  };
 
-
-
-//    测试弹窗
-    //  tip.error("服务器出错了");
-    //  tip.loading();
-    //  setTimeout(function() {
-    //      tip.loaded();
-    //      console.log(tip.isLoading)
-    //  }, 2000);
-    // }
-
-    watch = {
-        pageTime (newValue, oldValue) {
-        //   console.log(`num value: ${oldValue} -> ${newValue}`)
-        }
+  methods = {
+    changeNav(e) {
+      let productNav = this.productNav;
+      for (var i = 0; i < productNav.length; i++) {
+        productNav[i].active = false;
+      }
+      productNav[e].active = true;
+      this.productNav = productNav;
+      console.log(this);
+      this.$apply();
+    },
+    searchSubmit() {
+      console.log("搜索了");
     }
+  };
 
-    onLoad (){
-        console.log("onLoad");
-        // wepy.login({
-        //     success(res){
-        //         console.log(res)
-        //     }
-        // })
-        //   倒计时
-       let time = "36666698";
-       setInterval(()=> {
-           time-=1000;
-           this.pageTime = comm.dateformat(time);
-           console.log(this.pageTime)
-           this.$apply();
-       },1000);  
-    }
-    onShareAppMessage(){
-        console.log("转发")
-    }
+  onShow() {
+    console.log("show index");
+    let that = this;
+    let imgUrls = this.imgUrls;
+    comm.wxRequest({ query: {} }, api.Home, function(res) {
+      // console.log(res);
+      let imgUrls = res.data.banner;
+      let productRow = res.data.group;
+      let productList = res.data.sellGoods;
+      for (let i = 0; i < imgUrls.length; i++) {
+        imgUrls[i].image = `${res.data.domain}${imgUrls[i].image}`;
+      }
+      for (let i = 0; i < productRow.length; i++) {
+        productRow[i].logo = `${res.data.domain}${productRow[i].logo}`;
+      }
+      for (let i = 0; i < productList.length; i++) {
+          // console.log(productList[i].goods)
+          for (let j = 0; j < productList[i].goods.length; j++) {
+              productList[i].goods[j].logo = `${res.data.domain}${productList[i].goods[j].logo}`
+          }
+      }
+      // console.log(productList)
+      that.productRow = productRow;
+      that.imgUrls = imgUrls;
+      that.productList = productList;
+      that.$apply();
+    });
+  }
 
+  watch = {
+    pageTime(newValue, oldValue) {
+      //   console.log(`num value: ${oldValue} -> ${newValue}`)
+    }
+  };
+
+  onLoad() {
+    let that = this;
+    console.log("onLoad  index");
+    wepy.login({
+      success(res) {
+        // console.log(res);
+      }
+    });
+    comm.wxRequest({ query: {} }, api.Home, function(res) {
+      console.log(res.data.time);
+      let time = res.data.time * 1000;
+      setInterval(() => {
+        time -= 1000;
+        that.pageTime = comm.dateformat(time);
+        //    console.log(that.pageTime)
+        that.$apply();
+      }, 1000);
+      that.$apply();
+    });
+  }
+
+  onShareAppMessage() {
+    console.log("转发");
+  }
 }
 </script>
