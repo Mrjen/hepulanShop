@@ -99,12 +99,8 @@ export default class comm {
     }
 
     static wxRequest(params={},url,cb){
-        wx.showToast({
-           title: '加载中',
-           icon: 'loading'
-        });
         let data = params.query || {};
-        data.sign = wx.getStorageSync('sign');
+        // data.sign = wx.getStorageSync('sign');
             wx.request({
             url:url,
             method:params.method || 'GET',
@@ -112,7 +108,6 @@ export default class comm {
             header: { 'Content-Type': 'application/json' },
             success(res){
                 typeof cb == 'function'&&cb(res);
-                wx.hideLoading();
             },
             fail(res){
                 console.log("请求错误")

@@ -234,7 +234,7 @@ page {
             <!-- 商品 -->
             <view class="item_product flex" wx:for="{{item.goods}}" wx:for-item="goods" wx:key="index" style="background-image:url({{goods.logo}})">
                 <view>{{goods.name}}</view>
-                <view>￥{{goods.price}}</view>
+                <view>￥{{goods.price/100}}</view>
                 <button class="buy">立即购买</button>
             </view>
         </view>
@@ -313,19 +313,19 @@ export default class extends wepy.page {
     let imgUrls = this.imgUrls;
     comm.wxRequest({ query: {} }, api.Home, function(res) {
       // console.log(res);
-      let imgUrls = res.data.banner;
-      let productRow = res.data.group;
-      let productList = res.data.sellGoods;
+      let imgUrls = res.data.data.banner;
+      let productRow = res.data.data.group;
+      let productList = res.data.data.sellGoods;
       for (let i = 0; i < imgUrls.length; i++) {
-        imgUrls[i].image = `${res.data.domain}${imgUrls[i].image}`;
+        imgUrls[i].image = `${res.data.data.domain}${imgUrls[i].image}`;
       }
       for (let i = 0; i < productRow.length; i++) {
-        productRow[i].logo = `${res.data.domain}${productRow[i].logo}`;
+        productRow[i].logo = `${res.data.data.domain}${productRow[i].logo}`;
       }
       for (let i = 0; i < productList.length; i++) {
           // console.log(productList[i].goods)
           for (let j = 0; j < productList[i].goods.length; j++) {
-              productList[i].goods[j].logo = `${res.data.domain}${productList[i].goods[j].logo}`
+              productList[i].goods[j].logo = `${res.data.data.domain}${productList[i].goods[j].logo}`
           }
       }
       // console.log(productList)
@@ -351,15 +351,21 @@ export default class extends wepy.page {
       }
     });
     comm.wxRequest({ query: {} }, api.Home, function(res) {
-      console.log(res.data.time);
-      let time = res.data.time * 1000;
-      setInterval(() => {
+      console.log(res.data.data.time);
+      let time = res.data.data.time * 1000;
+      // let time = 10000;
+      let _time = setInterval(() => {
         time -= 1000;
-        that.pageTime = comm.dateformat(time);
+        if (time=='0') {
+           clearInterval(_time);
+           that.pageTime = "00:00:00";
+           that.$apply();
+        }else{
+          that.pageTime = comm.dateformat(time);
+          that.$apply();
+        }
         //    console.log(that.pageTime)
-        that.$apply();
       }, 1000);
-      that.$apply();
     });
   }
 

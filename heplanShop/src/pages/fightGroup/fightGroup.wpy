@@ -86,15 +86,15 @@ page {
 <template>
   <view class="container">
       <view class="group_item" wx:for="{{groupList}}" wx:key="index">
-          <view class="img"><image src="{{item.img}}"></image></view>
+          <view class="img"><image src="{{item.logo}}"></image></view>
           <view class="info">
              <view class="name">{{item.name}}</view>
-          <view class="has_group"><image wx:for="{{item.group_img}}" wx:for-item="group_img" src="{{group_img.img}}"></image>已团{{item.group_num}}件</view>
+          <view class="has_group"><image wx:for="{{item.users}}" wx:for-item="users" wx:key="{{index}}" src="{{users.avatarUrl}}"></image>已团{{item.sum?item.sum:0}}件</view>
           <view class="price_box">
-              <view class="price">￥{{item.price}}</view>
-              <view class="old_price">￥{{item.oldprice}}</view>    
+              <view class="price">￥{{item.groupPrice/100}}</view>
+              <view class="old_price">￥{{item.price/100}}</view>    
           </view>
-          <navigator url="../fightDetail/fightDetail">去开团</navigator>
+          <navigator url="../fightDetail/fightDetail?id={{item.id}}">去开团</navigator>
           </view>
       </view>
   </view>
@@ -102,6 +102,11 @@ page {
 
 <script>
 import wepy from "wepy";
+import comm from "../../comm/comm";
+import tip from "../../comm/tip";
+
+import wxRequest from "../../comm/wxRequest";
+import api from "../../api/api";
 export default class extends wepy.page {
   config = {
     navigationBarTitleText: "拼团",
@@ -109,92 +114,28 @@ export default class extends wepy.page {
     navigationBarTextStyle: "#fff"
   };
   data = {
-    groupList: [
-      {
-        name: "美瞳赋活护理套装",
-        group_num: "5555",
-        oldprice: "198.00",
-        price: "50.00",
-        img: "https://qncdn.playonwechat.com/hepulanShop/group_fitht01.png",
-        group_img: [
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          },
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          },
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
+    groupList: []
+  }
+
+  methos = {
+
+  }
+
+  onShow(){
+    let that = this;
+    console.log(api.apiUrl)
+    comm.wxRequest({query:{}},api.fightGroup,function(res){
+       let groupList = res.data.data;
+       for (let i = 0; i < groupList.length; i++) {
+          groupList[i].logo = `${api.apiUrl}/${groupList[i].logo}`;
+          for (let j = 0; j < groupList[i].users.length; j++) {
+             groupList[i].users[j].avatarUrl = `${api.apiUrl}/${groupList[i].users[j].avatarUrl}`
           }
-        ]
-      },
-      {
-        name: "美瞳赋活护理套装",
-        group_num: "5555",
-        oldprice: "198.00",
-        price: "50.00",
-        img: "https://qncdn.playonwechat.com/hepulanShop/group_fitht01.png",
-        group_img: [
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          },
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          },
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          }
-        ]
-      },
-      {
-        name: "美瞳赋活护理套装",
-        group_num: "5555",
-        oldprice: "198.00",
-        price: "50.00",
-        img: "https://qncdn.playonwechat.com/hepulanShop/group_fitht01.png",
-        group_img: [
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          },
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          },
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          }
-        ]
-      },
-      {
-        name: "美瞳赋活护理套装",
-        group_num: "5555",
-        oldprice: "198.00",
-        price: "50.00",
-        img: "https://qncdn.playonwechat.com/hepulanShop/group_fitht01.png",
-        group_img: [
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          },
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          },
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          }
-        ]
-      }
-    ]
-  };
+       }
+       that.groupList = groupList;
+       that.$apply();
+    })
+  }
 }
 </script>
+

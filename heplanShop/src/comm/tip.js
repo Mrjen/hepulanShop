@@ -56,11 +56,11 @@ export default class Tips {
             duration: 500
         })
         // 隐藏结束回调
-        if (onHide) {
-            setTimeout(() => {
-                onHide()
-            }, 500)
-        }
+        // if (onHide) {
+        //     setTimeout(() => {
+        //         onHide()
+        //     }, 500)
+        // }
     }
 
     /**

@@ -16,6 +16,7 @@ page {
   .name {
     font-size: 36rpx;
     text-align: center;
+    margin-bottom: 40rpx;
   }
   .tip {
     font-size: 24rpx;
@@ -207,11 +208,15 @@ page {
         text-align: center;
         background: #deede9;
         border-radius: 6rpx;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         .price {
           font-size: 28rpx;
         }
         .tiip {
-          font-size: 16rpx;
+          font-size: 28rpx;
         }
       }
     } // 收藏及展示
@@ -266,15 +271,15 @@ page {
         min-height: 100rpx;
         margin-top: 40rpx;
       }
-      .detail_content{
-          image{
-              width: 482rpx;
-          }
-          text:nth-of-type(1){
-              width:80rpx;
-              display: inline-block;
-              text-align: right;
-          }
+      .detail_content {
+        image {
+          width: 482rpx;
+        }
+        text:nth-of-type(1) {
+          width: 80rpx;
+          display: inline-block;
+          text-align: right;
+        }
       }
     }
   }
@@ -284,8 +289,8 @@ page {
 <template>
     <view class="container">
         <view class="name">{{detail.name}}</view>
-        <view class="tip">距离拼团结束时间</view>
-        <view class="time">{{detail.endtime}}</view>
+        <!-- <view class="tip">距离拼团结束时间</view>
+        <view class="time">{{detail.endtime}}</view> -->
         <!-- 图片轮播 -->
         <swiper class="swiper" indicator-dots="false" autoplay="false" interval="5000" duration="1000">
               <image src="{{detail.logo}}" class="slide-image" />
@@ -299,14 +304,14 @@ page {
                         <view class="oldprice">
                             ￥{{detail.price/100}}
                         </view>
-                        <view class="tag">
+                        <!-- <view class="tag">
                             <view>{{detail.num}}人拼团</view>
                             <view>拼团立省{{detail.save_money}}元</view>
-                        </view>
+                        </view> -->
                     </view>
                 </view>
-                <view class="help" @tap="toRules()">
-                    <text></text>规则</view>
+                <!-- <view class="help" @tap="toRules()">
+                    <text></text>规则</view> -->
             </view>
             <!-- 颜色 -->
             <view class="type_box">
@@ -330,13 +335,13 @@ page {
                     <text></text>
                     <view>找客服</view>
                 </button>
-                <view class="only_buy" @tap="toOnlyBuy">
-                    <view class="price">￥{{detail.price/100}}</view>
-                    <view class="tiip">单独购买</view>
+                <view class="only_buy">
+                    <!-- <view class="price">￥{{detail.price/100}}</view> -->
+                    <view class="tiip" @tap="addCart">加入购物车</view>
                 </view>
                 <view class="group_buy">
-                    <view class="price">￥{{detail.groupPrice/100}}</view>
-                    <view class="tiip">{{detail.num}}人拼团</view>
+                    <!-- <view class="price">￥{{detail.groupPrice/100}}</view> -->
+                    <view class="tiip">立即购买</view>
                 </view>
             </view>
             <!-- 收藏及展示 -->
@@ -384,14 +389,15 @@ import wxRequest from "../../comm/wxRequest";
 import api from "../../api/api";
 export default class extends wepy.page {
   config = {
-    navigationBarTitleText: "拼团详情",
+    navigationBarTitleText: "单独购买",
     navigationBarBackgroundColor: "#16382e",
     navigationBarTextStyle: "#fff"
   };
   data = {
     group_id: 0,
     detail: {},
-    goodsNum:1,//商品数量
+    goodsNum: 1, //商品数量
+    goodsIndex: "", //商品默认选择类型
     navList: [
       {
         text: "商品详情",
@@ -414,6 +420,7 @@ export default class extends wepy.page {
       }
       color[index].active = true;
       this.data.detail.option.options = color;
+      this.goodsIndex = index+1;
       this.$apply();
     },
 
@@ -442,35 +449,58 @@ export default class extends wepy.page {
       );
     },
     // 切换商品详情和商品参数
-    changeDetail(index){
-        let navList = this.navList;
-        for (var i = 0; i < navList.length; i++) {
-            navList[i].active = false;
-        }
-        navList[index].active = true;
+    changeDetail(index) {
+      let navList = this.navList;
+      for (var i = 0; i < navList.length; i++) {
+        navList[i].active = false;
+      }
+      navList[index].active = true;
     },
-    cutNum(e){
-      if (e>0) {
-         this.goodsNum+=1
-         this.$apply();
-      }else if(e<0){
-         this.goodsNum = this.goodsNum>1?(this.goodsNum-=1):1
-         this.$apply();
+    // 或者减商品数量
+    cutNum(e) {
+      if (e > 0) {
+        this.goodsNum += 1;
+        this.$apply();
+      } else if (e < 0) {
+        this.goodsNum = this.goodsNum > 1 ? (this.goodsNum -= 1) : 1;
+        this.$apply();
       }
     },
-    // 单独购买
-    toOnlyBuy(){
-        console.log(1111)
-        wx.navigateTo({
-         url: `../groupOnlyBuy/gruopOnlyBuy?id=${this.group_id}`
-        })
+    // 加入购物车
+    addCart() {
+      let that = this;
+      if (!this.goodsIndex) {
+        console.log(this.detail.option.group);
+        tip.alert("请选择商品" + this.detail.option.group, 1500);
+        return false;
+      }
+      comm.wxRequest(
+        {
+          query: {
+            uid: wx.getStorageSync("uid"),
+            goods: this.detail.goods,
+            num: this.goodsNum,
+            option: {
+                option:this.detail.option.group,
+                value:this.detail.option.options[this.goodsIndex-1].option
+            }
+          }
+        },
+        api.addCart,
+        function(res) {
+            console.log(res)
+            if (res.data.status=='1') {
+                tip.success(res.data.data.msg)
+            }
+        }
+      );
     }
   };
 
   onLoad(options) {
     console.log(options);
-    this.group_id = options.id;
-    // this.group_id = "56.119.61.61";
+    // this.group_id = options.id;
+    this.group_id = "56.119.61.61";
     this.$apply();
   }
 

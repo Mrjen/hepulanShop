@@ -1,346 +1,401 @@
 <style lang="less">
-.item{
+page {
+  background: #f2f9fb;
+}
+
+.list_item {
+  display: flex;
+  padding: 20rpx;
+  width: 100%;
+  align-items: center;
+  .item_img {
+    width: 370rpx;
+    height: 100%;
+    margin-right: 20rpx;
     display: flex;
-    padding:20rpx;
     align-items: center;
-    .item_img{
-        width: 370rpx;
-        height: 230rpx;
-        margin-right: 20rpx;
+  }
+  .item_info {
+    width: 100%;
+    height: 100%;
+  }
+  .radio {
+    display: flex;
+    align-items: center;
+  }
+  .item_img image {
+    width: 370rpx;
+    height: 230rpx;
+    display: block;
+  }
+  .name {
+    margin-bottom: 10rpx;
+  }
+  .price {
+    font-size: 28rpx;
+    margin-bottom: 10rpx;
+  }
+  .type {
+    color: #999;
+    margin-bottom: 10rpx;
+    font-size: 24rpx;
+  }
+  .num_box {
+    display: flex;
+    color: #999;
+    width: 160rpx;
+    height: 50rpx;
+    position: relative;
+    border-radius: 16rpx;
+    view:nth-of-type(1) {
+      width: 50rpx;
+      height: 50rpx;
+      border-radius: 4rpx 0 0 4rpx;
+      font-size: 34rpx;
+      line-height: 44rpx;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      margin-top: 1rpx;
+      margin-left: 1rpx;
     }
-    .item_img image{
-        width: 370rpx;
-        height: 230rpx;
+    view:nth-of-type(1):before {
+      content: "";
+      height: 100%;
+      position: absolute;
+      border-left: 1px solid #d9d9d9;
+      transform: scaleX(0.5);
+      right: 0;
+      top: 1px;
     }
-    .name{
-        margin-bottom:10rpx;
+    view:nth-of-type(2) {
+      width: 60rpx;
+      height: 50rpx;
+      color: #333;
+      font-size: 26rpx;
+      line-height: 50rpx;
+      text-align: center;
     }
-    .price{
-        font-size: 28rpx;
-        margin-bottom: 10rpx;
+    view:nth-of-type(3) {
+      width: 50rpx;
+      height: 50rpx;
+      border-radius: 0 4rpx 4rpx 0;
+      font-size: 34rpx;
+      line-height: 44rpx;
+      text-align: cneter;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      margin-top: 1rpx;
+      margin-left: 1rpx;
     }
-    .type{
-        color: #999;
-        margin-bottom: 10rpx;
-        font-size: 24rpx;
+    view:nth-of-type(3):before {
+      content: "";
+      height: 100%;
+      position: absolute;
+      border-left: 1px solid #d9d9d9;
+      transform: scaleX(0.5);
+      left: 0;
+      top: 1px;
     }
-    .num_box{
-        display:flex;
-        color: #999;
-        width: 160rpx;
-        height: 50rpx;
-        position: relative;
-        border-radius: 16rpx;
-        view:nth-of-type(1){
-            width: 50rpx;
-            height: 50rpx;
-            border-radius: 4rpx 0 0 4rpx;
-            font-size: 34rpx;
-            line-height: 44rpx;
-            display: flex;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            margin-top: 1rpx;
-            margin-left: 1rpx;
-        }
-        view:nth-of-type(1):before{
-            content:"";
-            height: 100%;
-            position: absolute;
-            border-left: 1px solid #d9d9d9;
-            transform: scaleX(.5);
-            right: 0;
-            top: 1px;
-        }
-        view:nth-of-type(2){
-            width: 60rpx;
-            height: 50rpx;
-            color: #333;
-            font-size: 26rpx;
-            line-height: 50rpx;
-            text-align:center;
-        }
-        view:nth-of-type(3){
-            width: 50rpx;
-            height: 50rpx;
-            border-radius:  0 4rpx 4rpx 0;
-            font-size: 34rpx;
-            line-height: 44rpx;
-            text-align: cneter;
-            display: flex;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            margin-top: 1rpx;
-            margin-left: 1rpx;
-        }
-        view:nth-of-type(3):before{
-            content:"";
-            height: 100%;
-            position: absolute;
-            border-left: 1px solid #d9d9d9;
-            transform: scaleX(.5);
-            left: 0;
-            top: 1px;
-        }
-        .disable{
-            background:#f5f5f9;
-            color: #d1d1d1;
-        }
+    .disable {
+      background: #f5f5f9;
+      color: #d1d1d1;
     }
-    .num_box:before{
-        content: "";
-        display: block;
-        width: 200%;
-        height: 200%;
-        border:1px solid #d9d9d9;
-        transform: scale(.5);
-        position: absolute;
-        left: 0;
-        top: 0;
-        border-radius: 16rpx;
-        transform-origin:0 0;
-    }
+  }
+  .num_box:before {
+    content: "";
+    display: block;
+    width: 200%;
+    height: 200%;
+    border: 1px solid #d9d9d9;
+    transform: scale(0.5);
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 16rpx;
+    transform-origin: 0 0;
+  }
 }
 
 // 底部导航
-.bottom_nav{
-    width: 100%;
-    height: 134rpx;
-    background: #16382e;
-    display: flex;
-    justify-content: space-between;
-    position: fixed;
-    align-items:center;
-    left: 0;
-    bottom: 0;
-    color: #fff;
-    padding:0 30rpx;
-    .submite_order{
-        width: 200rpx;
-        height: 86rpx;
-        text-align: center;
-        line-height: 86rpx;
-        background:#0a7253;
-        border-radius:6rpx;
+.bottom_nav {
+  width: 100%;
+  height: 134rpx;
+  background: #16382e;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  align-items: center;
+  left: 0;
+  bottom: 0;
+  color: #fff;
+  padding: 0 30rpx;
+  .submite_order {
+    width: 200rpx;
+    height: 86rpx;
+    text-align: center;
+    line-height: 86rpx;
+    background: #0a7253;
+    border-radius: 6rpx;
+  }
+  .nav_left {
+    view:nth-of-type(1) {
+      font-size: 26rpx;
+      margin-bottom: 10rpx;
+      display: flex;
+      align-items: center;
     }
-    .nav_left{
-        view:nth-of-type(1){
-            font-size:26rpx;
-            margin-bottom:10rpx;
-            display:flex;
-            align-items:center;
-        }
-        view:nth-of-type(2){
-            font-size:36rpx;
-        }
+    view:nth-of-type(2) {
+      font-size: 36rpx;
     }
+  }
 }
 </style>
 
 <template>
     <view class="container">
-        <view class="item" wx:for="{{list}}">
-            <view><radio @tap="changeSelect({{index}})" color="#095a31" checked="{{item.select=='1'?true:false}}"/></view>
-            <view class="item_img">
-                <image src="{{item.img}}"></image>
+  <repeat for="{{list}}" key="index" index="index" item="item">
+    <swipeDelete :swipeData="item" @delItem.user="handleDelItem">
+      <view class="swipe-title list_item">
+          <view class="radio"><radio @tap="changeSelect({{index}},{{item.id}})" color="#095a31" checked="{{item.selected=='1'?true:false}}"/></view>
+          <view class="item_img">
+                <image src="{{item.goods.logo}}"></image>
             </view>
-            <view>
-                <view class="name">{{item.name}}</view>
-                <view class="price">￥{{item.price}}</view>
-                <view class="type">{{item.type}}</view>
+          <view class="item_info">
+                <view class="name">{{item.goods.name}}</view>
+                <view class="price">￥{{item.goods.price/100}}</view>
+                <view class="type">{{item.option.option}}:{{item.option.value}}</view>
                 <view class="num_box">
                     <view @tap="changeNum({{index}},0)"  class="{{item.num=='1'?'disable':''}}">-</view>
                     <view>{{item.num}}</view>
                     <view @tap="changeNum({{index}},1)">+</view>
                 </view>
             </view>
-        </view>
+      </view>
+    </swipeDelete>
+  </repeat>
+
         <!-- 底部导航 -->
         <view class="bottom_nav">
             <view class="nav_left">
                 <view><radio color="#095a31" @tap="changeAllSelect" checked="{{Allselect=='1'?true:false}}"/>共{{count}}件商品</view>
                 <view>总计：￥{{Money}}</view>
             </view>
-            <view class="submite_order">结算(包邮)</view>
+            <view class="submite_order" @tap="buyGoods">结算(包邮)</view>
         </view>
     </view>
 </template>
 
 <script>
-import wepy from 'wepy'
+import wepy from "wepy";
+import swipeDelete from "../../components/wepy-swipe-delete";
+import comm from "../../comm/comm";
+import tip from "../../comm/tip";
+import wxRequest from "../../comm/wxRequest";
+import api from "../../api/api";
+
 export default class extends wepy.page {
-    config = {
-        navigationBarTitleText: "购物车",
-        navigationBarBackgroundColor: '#16382e',
-        navigationBarTextStyle: '#fff'
-    }
-    data = {
-        list: [{
-            name: "倾慕丰润口红",
-            price: "99.99",
-            type: "天使绯红",
-            num: 1,
-            img: "http://iph.href.lu/370x230",
-            select: 1
-        },{
-            name: "倾慕丰润口红",
-            price: "99.99",
-            type: "天使绯红",
-            num: 5,
-            img: "http://iph.href.lu/370x230",
-            select: 1
-        },{
-            name: "倾慕丰润口红",
-            price: "99.99",
-            type: "天使绯红",
-            num: 5,
-            img: "http://iph.href.lu/370x230",
-            select: 1
-        }],
-        count:0,  //选中的商品数量
-        Money:0,   //选中的商品的总价格
-        Allselect:0   //商品是否全选
-    }
+  config = {
+    navigationBarTitleText: "购物车",
+    navigationBarBackgroundColor: "#16382e",
+    navigationBarTextStyle: "#fff"
+  };
 
-    methods = {
-        // 修改商品数量
-        changeNum(index,e){
-            if(e>0){
-              this.list[index].num++;
-            }else if(this.list[index].num>1&&e<1){
-              this.list[index].num--;
-            }
+  components = {
+    swipeDelete
+  };
 
-            this.count = this.countNum(this.list);
-            this.Money = this.countMoney(this.list);
-            this.$apply();
+  data = {
+    list: [
+      {
+        name: "倾慕丰润口红",
+        price: "99.99",
+        type: "天使绯红",
+        num: 1,
+        img: "http://iph.href.lu/370x230",
+        select: 1
+      },
+      {
+        name: "倾慕丰润口红",
+        price: "99.99",
+        type: "天使绯红",
+        num: 5,
+        img: "http://iph.href.lu/370x230",
+        select: 1
+      },
+      {
+        name: "倾慕丰润口红",
+        price: "99.99",
+        type: "天使绯红",
+        num: 5,
+        img: "http://iph.href.lu/370x230",
+        select: 1
+      }
+    ],
+    count: 0, //选中的商品数量
+    Money: 0, //选中的商品的总价格
+    Allselect: 0, //商品是否全选
+    buyData:[]  //选中商品
+  };
+
+  methods = {
+    // 修改商品数量
+    changeNum(index, e) {
+      let that = this;
+      if (e > 0) {
+        this.list[index].num++;
+      } else if (this.list[index].num > 1 && e < 1) {
+        this.list[index].num--;
+      }
+
+      this.count = this.countNum(this.list);
+      this.Money = this.countMoney(this.list);
+      this.$apply();
+    },
+    // 改变商品选中状态
+    changeSelect(index, id) {
+      // console.log(index,id)
+      let that = this;
+      let select = this.list[index].selected;
+      comm.wxRequest(
+        {
+          query: {
+            id: id,
+            uid: wx.getStorageSync("uid"),
+            selected: select == "1" ? "0" : "1"
+          }
         },
-        changeSelect(index){
-            let select = this.list[index].select;
-            this.list[index].select = select=='1'?'0':'1';
-            this.count = this.countNum(this.list);
-            this.Money = this.countMoney(this.list);
-            this.Allselect = this.allSelect(this.list);
-            this.$apply();
+        api.shopSelsct,
+        function(res) {
+          if (res.data.status == "1") {
+            that.list[index].selected = select == "1" ? "0" : "1";
+            that.count = that.countNum(that.list);
+            that.Money = that.countMoney(that.list);
+            that.Allselect = that.allSelect(that.list);
+            that.$apply();
+          } else {
+            tip.showToast(res.data.msg);
+          }
         }
+      );
+    },
+    handleDelItem(itemData) {
+      console.log(itemData);
+      let that = this;
+      let id = itemData.id;
+      comm.wxRequest({query:{id:id,uid:wx.getStorageSync('uid')}},api.delShopGoods,function(res){
+          if (res.data.status=='1') {
+              for (var i = 0; i < that.list.length; i++) {
+                  if (that.list[i].id===id) {
+                      that.list.splice(i,1)
+                  }
+              }
+              that.$apply();
+              tip.success("删除成功")
+          }
+      })
+    },
+    // 点击结算购买商品
+    buyGoods(){
+        let that = this;
+        comm.wxRequest({query:{uid:wx.getStorageSync('uid'),goods:this.buyData}},api.onlyBuy,function(res){
+            console.log(res)
+        })
     }
-    // 计算选中的商品总数
-    countNum(list){
-        let count = new Number();
-       for(let i=0;i<list.length;i++){
-           if(list[i].select>0){
-              count+= Number(list[i].num);
-           }
-       }
-       return count;
+  };
+
+  // 计算选中的商品总数
+  countNum(list) {
+    let count = new Number();
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].selected > 0) {
+        count += Number(list[i].num);
+      }
     }
-    // 计算选中的商品的总金额
-    countMoney(list){
-       let money = new Number();
-       for(let i=0;i<list.length;i++){
-           if(list[i].select>0){
-               money += Number(list[i].price)*Number(list[i].num)
-           }
-       }
-       return money.toFixed(2);
+    return count;
+  }
+  // 计算选中的商品的总金额
+  countMoney(list) {
+    let money = new Number();
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].selected > 0) {
+        money += Number(list[i].goods.price) * Number(list[i].num);
+      }
     }
-    // 判断是否全部选中
-    allSelect(list){
-        let isAllSelect = 0;
-        let arr = [];
-        for(let i=0;i<list.length;i++){
-            arr.push(Number(list[i].select));
+    return money / 100;
+  }
+  // 判断是否全部选中
+  allSelect(list) {
+    let isAllSelect = 0;
+    let arr = [];
+    for (let i = 0; i < list.length; i++) {
+      arr.push(Number(list[i].selected));
+    }
+    isAllSelect = arr.indexOf(0) < 0 ? 1 : 0;
+    comm.wxRequest(
+      { query: { uid: wx.getStorageSync("uid"), selected: isAllSelect } },
+      api.shopSelectAll,
+      function(res) {
+        // console.log(res);
+      }
+    );
+    return isAllSelect;
+  }
+
+  // 修改全选状态
+  changeAllSelect() {
+    if (this.Allselect > 0) {
+      for (let i = 0; i < this.list.length; i++) {
+        this.list[i].selected = 0;
+      }
+    } else {
+      for (let i = 0; i < this.list.length; i++) {
+        this.list[i].selected = 1;
+      }
+    }
+    this.count = this.countNum(this.list);
+    this.Money = this.countMoney(this.list);
+    this.Allselect = this.allSelect(this.list);
+    this.$apply();
+  }
+
+//    计算选中商品数组
+    selectArry(list){
+      let buyData = [];
+      for (let i = 0; i < list.length; i++) {
+          if (list[i].selected>0) {
+              buyData.push({goods:list[i].goods.id,option:list[i].option,num:list[i].num,id:list[i].id})
+          } 
+      }
+      return buyData;
+    }
+
+  // 页面显示加载初始数据
+  onShow() {
+    let that = this;
+    console.log();
+    comm.wxRequest(
+      { query: { uid: wx.getStorageSync("uid") } },
+      api.shopCartList,
+      function(res) {
+        console.log(res);
+        let list = res.data.data;
+        for (let i = 0; i < list.length; i++) {
+          list[i].goods.logo = `${api.apiUrl}/${list[i].goods.logo}`;
+          list[i].option = JSON.parse(list[i].option);
+          list[i].style = 0;
         }
-        isAllSelect = arr.indexOf(0)<0?1:0
-        return isAllSelect;
-    }
-    // 修改全选状态
-    changeAllSelect(){
-       if(this.Allselect>0){
-           for(let i=0;i<this.list.length;i++){
-               this.list[i].select = 0;
-           }
-       }else{
-           for(let i=0;i<this.list.length;i++){
-               this.list[i].select = 1;
-           }
-       }
-        this.count = this.countNum(this.list);
-        this.Money = this.countMoney(this.list);
-        this.Allselect = this.allSelect(this.list);
-        this.$apply();
-    }
-
-    // 页面显示加载初始数据
-    onShow(){
-        this.count = this.countNum(this.list);
-        this.Money = this.countMoney(this.list);
-        this.Allselect = this.allSelect(this.list);
-        console.log(this.Allselect);
-        this.$apply();
-    }
-
-    
-
-    // touchS: function(e) {
-    //     if(e.touches.length == 1) {// console.log(e.touches[0].clientX);
-
-    //         this.setData({//设置触摸起始点水平方向位置
-
-    //             startX: e.touches[0].clientX
-    //         });
-    //     }
-    // }
-    // touchM: function(e) {
-    //     if(e.touches.length == 1) {//手指移动时水平方向位置
-
-    //         var moveX = e.touches[0].clientX;//手指起始点位置与移动期间的差值
-
-    //         var disX = this.data.startX - moveX;
-    //         var delBtnWidth = this.data.delBtnWidth;
-    //         var txtStyle = "";
-    //         if (disX == 0 || disX < 0) { //如果移动距离小于等于0，文本层位置不变
-    //             txtStyle = "left:0px";
-    //         } else if (disX > 0) { //移动距离大于0，文本层left值等于手指移动距离
-    //             txtStyle = "left:-" + disX + "rpx";
-    //             if (disX >= delBtnWidth) {//控制手指移动距离最大值为删除按钮的宽度
-
-    //                 txtStyle = "left:-" + delBtnWidth + "rpx";
-    //             }
-    //         }//获取手指触摸的是哪一项
-
-    //         var index = e.currentTarget.dataset.index;
-    //         console.log(index);
-    //         var list = this.data.list;
-    //         list[index].txtStyle = txtStyle;//更新列表的状态
-
-    //         this.setData({
-    //             list: list
-    //         });
-    //     }
-    // }
-
-    // touchE: function(e) {
-    //     if(e.changedTouches.length == 1) { //手指移动结束后水平位置
-
-    //         var endX = e.changedTouches[0].clientX; //触摸开始与结束，手指移动的距离
-
-    //         var disX = this.data.startX - endX;
-    //         var delBtnWidth = this.data.delBtnWidth; //如果距离小于删除按钮的1/2，不显示删除按钮
-
-    //         var txtStyle = disX > delBtnWidth / 2 ? "left:-" + delBtnWidth + "rpx" : "left:0rpx";//获取手指触摸的是哪一项
-
-    //         var index = e.currentTarget.dataset.index;
-    //         var list = this.data.list;
-    //         list[index].txtStyle = txtStyle;//更新列表的状态
-
-    //         this.setData({
-    //             list: list
-    //         });
-    //     }
-    // }
-
-}   
+        that.list = list;
+        that.count = that.countNum(list);
+        that.Money = that.countMoney(list);
+        that.Allselect = that.allSelect(list);
+        that.buyData = that.selectArry(list);
+        that.$apply();
+      }
+    );
+  }
+}
 </script>
