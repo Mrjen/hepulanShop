@@ -217,40 +217,25 @@ export default class extends wepy.page {
         num: 1,
         img: "http://iph.href.lu/370x230",
         select: 1
-      },
-      {
-        name: "倾慕丰润口红",
-        price: "99.99",
-        type: "天使绯红",
-        num: 5,
-        img: "http://iph.href.lu/370x230",
-        select: 1
-      },
-      {
-        name: "倾慕丰润口红",
-        price: "99.99",
-        type: "天使绯红",
-        num: 5,
-        img: "http://iph.href.lu/370x230",
-        select: 1
       }
     ],
     count: 0, //选中的商品数量
     Money: 0, //选中的商品的总价格
     Allselect: 0, //商品是否全选
-    buyData:[]  //选中商品
+    buyData: [] //选中商品
   };
 
   methods = {
     // 修改商品数量
     changeNum(index, e) {
       let that = this;
+      console.log(this.list)
       if (e > 0) {
         this.list[index].num++;
       } else if (this.list[index].num > 1 && e < 1) {
         this.list[index].num--;
       }
-
+      console.log(this.list)
       this.count = this.countNum(this.list);
       this.Money = this.countMoney(this.list);
       this.$apply();
@@ -275,6 +260,7 @@ export default class extends wepy.page {
             that.count = that.countNum(that.list);
             that.Money = that.countMoney(that.list);
             that.Allselect = that.allSelect(that.list);
+            that.buyData = that.selectArry(that.list);
             that.$apply();
           } else {
             tip.showToast(res.data.msg);
@@ -286,24 +272,39 @@ export default class extends wepy.page {
       console.log(itemData);
       let that = this;
       let id = itemData.id;
-      comm.wxRequest({query:{id:id,uid:wx.getStorageSync('uid')}},api.delShopGoods,function(res){
-          if (res.data.status=='1') {
-              for (var i = 0; i < that.list.length; i++) {
-                  if (that.list[i].id===id) {
-                      that.list.splice(i,1)
-                  }
+      comm.wxRequest(
+        { query: { id: id, uid: wx.getStorageSync("uid") } },
+        api.delShopGoods,
+        function(res) {
+          if (res.data.status == "1") {
+            for (var i = 0; i < that.list.length; i++) {
+              if (that.list[i].id === id) {
+                that.list.splice(i, 1);
               }
-              that.$apply();
-              tip.success("删除成功")
+            }
+            that.$apply();
+            tip.success("删除成功");
           }
-      })
+        }
+      );
     },
     // 点击结算购买商品
-    buyGoods(){
-        let that = this;
-        comm.wxRequest({query:{uid:wx.getStorageSync('uid'),goods:this.buyData}},api.onlyBuy,function(res){
-            console.log(res)
-        })
+    buyGoods() {
+      let that = this;
+      that.buyData = that.selectArry(that.list);
+      comm.wxRequest(
+        { query: { uid: wx.getStorageSync("uid"), goods: this.buyData } },
+        api.onlyBuy,
+        function(res) {
+          if (res.data.status == "1") {
+            wepy.navigateTo({
+              url: `../submitOrder/submitOrder?order=${res.data.data.order}`
+            });
+          }else{
+              tip.alert(res.data.data.message)
+          }
+        }
+      );
     }
   };
 
@@ -335,13 +336,15 @@ export default class extends wepy.page {
       arr.push(Number(list[i].selected));
     }
     isAllSelect = arr.indexOf(0) < 0 ? 1 : 0;
-    comm.wxRequest(
-      { query: { uid: wx.getStorageSync("uid"), selected: isAllSelect } },
-      api.shopSelectAll,
-      function(res) {
-        // console.log(res);
-      }
-    );
+    if (arr.indexOf(0) < 0) {
+      comm.wxRequest(
+        { query: { uid: wx.getStorageSync("uid"), selected: isAllSelect } },
+        api.shopSelectAll,
+        function(res) {
+          // console.log(res);
+        }
+      );
+    }
     return isAllSelect;
   }
 
@@ -362,16 +365,21 @@ export default class extends wepy.page {
     this.$apply();
   }
 
-//    计算选中商品数组
-    selectArry(list){
-      let buyData = [];
-      for (let i = 0; i < list.length; i++) {
-          if (list[i].selected>0) {
-              buyData.push({goods:list[i].goods.id,option:list[i].option,num:list[i].num,id:list[i].id})
-          } 
+  //    计算选中商品数组
+  selectArry(list) {
+    let buyData = [];
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].selected > 0) {
+        buyData.push({
+          goods: list[i].goods.id,
+          option: list[i].option,
+          num: list[i].num,
+          id: list[i].id
+        });
       }
-      return buyData;
     }
+    return buyData;
+  }
 
   // 页面显示加载初始数据
   onShow() {

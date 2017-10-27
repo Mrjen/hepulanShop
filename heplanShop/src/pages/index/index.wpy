@@ -192,6 +192,7 @@ page {
 
 <template>
     <view class="container">
+        {{test}}
         <!-- 搜索 -->
         <view class="search_box flex">
             <input type="text" confirm-type="search" bindconfirm="searchSubmit" />
@@ -226,7 +227,7 @@ page {
             </view>
         </navigator>
         <!-- 女人街  -->
-        <repeat wx:for="{{productList}}">
+        <repeat wx:for="{{productList}}" wx:for-item="index">
            <view class="product_list">
             <view class="productNav flex">
                 <view class="nav_item" @tap="changeNav({{index}})" wx:for="{{productNav}}" wx:key="index" style="background:{{item.active?'#17392f':''}};color:{{item.active?'#fff':''}}">{{item.text}}</view>
@@ -288,7 +289,8 @@ export default class extends wepy.page {
       }
     ],
     pageTime: "00:00:00",
-    imgUrls: []
+    imgUrls: [],
+    test:""
   };
 
   methods = {
@@ -311,8 +313,21 @@ export default class extends wepy.page {
     console.log("show index");
     let that = this;
     let imgUrls = this.imgUrls;
-    comm.wxRequest({ query: {} }, api.Home, function(res) {
+    // that.test = api.Home;
+    that.$apply();
+    
+    wepy.request({
+      url:api.Home,
+      success(res){
+        console.log(res)
+        that.test = "wepy 执行了"
+        that.$apply();
+      }
+    })
+
+    comm.wxRequest({ query:{id:1} }, api.Home, function(res) {
       // console.log(res);
+      // that.test = "show index";
       let imgUrls = res.data.data.banner;
       let productRow = res.data.data.group;
       let productList = res.data.data.sellGoods;
@@ -323,11 +338,15 @@ export default class extends wepy.page {
         productRow[i].logo = `${res.data.data.domain}${productRow[i].logo}`;
       }
       for (let i = 0; i < productList.length; i++) {
-          // console.log(productList[i].goods)
-          for (let j = 0; j < productList[i].goods.length; j++) {
-              productList[i].goods[j].logo = `${res.data.data.domain}${productList[i].goods[j].logo}`
-          }
+        // console.log(productList[i].goods)
+        for (let j = 0; j < productList[i].goods.length; j++) {
+          productList[i].goods[j].logo = `${res.data.data.domain}${productList[
+            i
+          ].goods[j].logo}`;
+        }
       }
+      tip.success("我执行了",2000);
+      that.pageTime = "我执行了"
       // console.log(productList)
       that.productRow = productRow;
       that.imgUrls = imgUrls;
@@ -345,27 +364,24 @@ export default class extends wepy.page {
   onLoad() {
     let that = this;
     console.log("onLoad  index");
-    wepy.login({
-      success(res) {
-        // console.log(res);
-      }
-    });
-    comm.wxRequest({ query: {} }, api.Home, function(res) {
-      console.log(res.data.data.time);
-      let time = res.data.data.time * 1000;
-      // let time = 10000;
-      let _time = setInterval(() => {
-        time -= 1000;
-        if (time=='0') {
-           clearInterval(_time);
-           that.pageTime = "00:00:00";
-           that.$apply();
-        }else{
-          that.pageTime = comm.dateformat(time);
-          that.$apply();
-        }
-        //    console.log(that.pageTime)
-      }, 1000);
+    comm.getSign(function(res) {
+      comm.wxRequest({ query: {} }, api.Home, function(res) {
+        console.log(res.data.data.time);
+        let time = res.data.data.time * 1000;
+        // let time = 10000;
+        let _time = setInterval(() => {
+          time -= 1000;
+          if (time == "0") {
+            clearInterval(_time);
+            that.pageTime = "00:00:00";
+            that.$apply();
+          } else {
+            that.pageTime = comm.dateformat(time);
+            that.$apply();
+          }
+          //    console.log(that.pageTime)
+        }, 1000);
+      });
     });
   }
 

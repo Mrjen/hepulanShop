@@ -87,10 +87,22 @@ export default class comm {
       }
 
     //   获取sign
-    static getSign(){
+    static getSign(cb){
         wx.login({
             success(res){
-                console.log(res)
+                console.log("comm code",res)
+                let url = 'https://hepulan-mall.playonwechat.com/shop/User/registry'
+                wx.request({
+                    url:`${url}?code=${res.code}`,
+                    success(res){
+                        wx.setStorageSync("uid",res.data.data.uid);
+                        typeof cb == 'function'&&cb(res)
+                    },
+                    fail(res){
+                        console.log("获取用户uid失败")
+                    }
+                })
+                
             },
             fail(res){
                 console.log("失败")

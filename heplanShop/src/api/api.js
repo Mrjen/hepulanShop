@@ -2,6 +2,8 @@ import {wxRequest} from '../comm/wxRequest'
 
 const apiUrl = 'https://hepulan-mall.playonwechat.com'
 
+// 获取用户UID
+const getUid = apiUrl + '/shop/User/registry'
 // 获取首页数据
 const Home = apiUrl +'/shop/Home/page'
 // 拼团页面数据
@@ -22,7 +24,10 @@ const shopSelectAll = apiUrl + '/shop/Car/selectAll'
 const delShopGoods = apiUrl + '/shop/Car/del'
 // 单独提交订单
 const onlyBuy = apiUrl + '/shop/Order/single'
-
+// 保存用户收获地址
+const addressSumit = apiUrl + '/shop/Order/singlePerfect'
+// 提交订单支付
+const orderSumit = apiUrl + '/shop/Order/singlePay'
 // 保存用户信息
 const saveUserInfo = apiUrl + '/shop/User/upgrade'
 
@@ -30,6 +35,7 @@ const saveUserInfo = apiUrl + '/shop/User/upgrade'
 
 
 module.exports = {
+    getUid,
     apiUrl,
     Home,
     fightGroup,
@@ -41,5 +47,7 @@ module.exports = {
     shopSelsct,
     shopSelectAll,
     delShopGoods,
-    onlyBuy
+    onlyBuy,
+    addressSumit,
+    orderSumit
 }

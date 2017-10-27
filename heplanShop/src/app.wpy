@@ -60,20 +60,19 @@ import api from "./api/api";
 export default class extends wepy.app {
   config = {
     pages: [
+      "pages/index/index",
       "pages/shopCart/shopCart",
       "pages/demo",
-      
+      "pages/submitOrder/submitOrder",
       "pages/groupOnlyBuy/gruopOnlyBuy",
       "pages/fightGroup/fightGroup",
       "pages/fightDetail/fightDetail",
-      "pages/index/index",
       "pages/mine/mine",
       "pages/myOrderDetail/myOrderDetail",
       "pages/myOrder/myOrder",
       "pages/myFightGroup/myFightGroup",
       "pages/inviteFight/inviteFight",
       "pages/myCollect/myCollect",
-      "pages/submitOrder/submitOrder",
       "pages/groupRules/groupRules",
       
     ],
@@ -123,15 +122,14 @@ export default class extends wepy.app {
   onLaunch() {
     this.testAsync();
     this.getUserInfo();
-      wepy.login({
+      wx.login({
         success(res) {
           // console.log(res);
-          let url = "https://hepulan-mall.playonwechat.com/shop/User/registry";
           wx.request({
-            url: `${url}?code=${res.code}`,
+            url: `${api.getUid}?code=${res.code}`,
             success(res) {
               // console.log(res)
-              wepy.setStorageSync("uid", res.data.data.uid);
+              wx.setStorageSync("uid", res.data.data.uid);
             }
           });
         }

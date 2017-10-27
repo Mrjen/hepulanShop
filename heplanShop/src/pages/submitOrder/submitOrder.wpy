@@ -1,176 +1,176 @@
 <style lang="less">
 page {
-    background: #f2f9fb;
+  background: #f2f9fb;
 }
 
 // 地址信息
 .address {
-    width: 100%;
-    height: 176rpx;
-    background: #fff;
-    margin-top: 14rpx;
+  width: 100%;
+  height: 176rpx;
+  background: #fff;
+  margin-top: 14rpx;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+  .address_icon {
     display: flex;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 20rpx;
-    .address_icon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100rpx;
+    width: 100rpx;
+  }
+  .address_icon image {
+    display: block;
+    width: 28rpx;
+    height: 34rpx;
+  }
+  .info {
+    text {
+      display: inline-block;
+      margin-right: 20rpx;
     }
-    .address_icon image {
-        display: block;
-        width: 28rpx;
-        height: 34rpx;
+  }
+  .info_right {
+    position: relative;
+    flex: 1;
+    .address_info {
+      margin-top: 10rpx;
     }
-    .info {
-        text {
-            display: inline-block;
-            margin-right: 20rpx;
-        }
-    }
-    .info_right {
-        position: relative;
-        flex: 1;
-        .address_info {
-            margin-top: 10rpx;
-        }
-    }
-    .info_right:before {
-        content: "";
-        position: absolute;
-        right: 14px;
-        top: 50%;
-        width: 10px;
-        height: 10px;
-        border-top: solid 1px currentColor;
-        border-right: solid 1px currentColor;
-        -webkit-transform: rotate(45deg);
-        transform: rotate(45deg);
-    }
+  }
+  .info_right:before {
+    content: "";
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-top: solid 1px currentColor;
+    border-right: solid 1px currentColor;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
 }
 
 .order_info {
+  width: 100%;
+  background: #fff;
+  font-size: 26rpx;
+  padding: 20rpx;
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
-    background: #fff;
-    font-size: 26rpx;
-    padding: 20rpx;
-    .nav {
+    .call_mine {
+      display: block;
+      background: #fff;
+      font-size: 26rpx;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      image {
+        display: block;
+        width: 30rpx;
+        height: 30rpx;
+        margin-right: 10rpx;
+      }
+    }
+    .call_mine:after {
+      display: none;
+    }
+    text {
+      display: block;
+    }
+  }
+  .product_list {
+    display: flex;
+    margin-bottom: 20rpx;
+    .product_img {
+      width: 344rpx;
+      height: 208rpx;
+      display: block;
+      margin-right: 20rpx;
+    }
+    .product_info {
+      flex: 1;
+      .product_name {
+        margin-bottom: 10rpx;
+      }
+      .type {
+        font-size: 30rpx;
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        .call_mine {
-            display: block;
-            background: #fff;
-            font-size: 26rpx;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            image{
-                display: block;
-                width: 30rpx;
-                height: 30rpx;
-                margin-right: 10rpx;
-            }
-        }
-        .call_mine:after {
-            display: none;
-        }
-        text {
-            display: block;
-        }
-    }
-    .product_list {
-        display: flex;
-        margin-bottom: 20rpx;
-        .product_img {
-            width: 344rpx;
-            height: 208rpx;
-            display: block;
+        .type_info {
+          display: flex;
+          view:nth-of-type(1) {
             margin-right: 20rpx;
+          }
         }
-        .product_info {
-            flex: 1;
-            .product_name {
-                margin-bottom: 10rpx;
-            }
-            .type {
-                font-size: 30rpx;
-                display: flex;
-                justify-content: space-between;
-                .type_info {
-                    display: flex;
-                    view:nth-of-type(1) {
-                        margin-right: 20rpx;
-                    }
-                }
-            }
-        }
+      }
     }
+  }
 }
 
 .container .express_box {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: 80rpx;
-    position: relative;
-    background: #fff;
-    line-height: 80rpx;
-    padding: 0 20rpx;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 80rpx;
+  position: relative;
+  background: #fff;
+  line-height: 80rpx;
+  padding: 0 20rpx;
 }
 
-.msg{
-    width: 100%;
-    height: 180rpx;
-    background:#fff;
-    display: flex;
-    align-items: center;
-    margin-bottom:160rpx;
-    textarea{
-        display: block;
-        width: 676rpx;
-        height: 120rpx;
-        margin:0 auto;
-        border-radius: 6rpx;
-        background: #eaeaea;
-        box-sizing: border-box;
-        padding:20rpx;
-    }
+.msg {
+  width: 100%;
+  height: 180rpx;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  margin-bottom: 160rpx;
+  textarea {
+    display: block;
+    width: 676rpx;
+    height: 120rpx;
+    margin: 0 auto;
+    border-radius: 6rpx;
+    background: #eaeaea;
+    box-sizing: border-box;
+    padding: 20rpx;
+  }
 }
 
 // 底部导航
-.bottom_nav{
-    width: 100%;
-    height: 134rpx;
-    background: #16382e;
-    display: flex;
-    justify-content: space-between;
-    position: fixed;
-    align-items:center;
-    left: 0;
-    bottom: 0;
-    color: #fff;
-    padding:0 30rpx;
-    .submite_order{
-        width: 200rpx;
-        height: 86rpx;
-        text-align: center;
-        line-height: 86rpx;
-        background:#0a7253;
-        border-radius:6rpx;
+.bottom_nav {
+  width: 100%;
+  height: 134rpx;
+  background: #16382e;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  align-items: center;
+  left: 0;
+  bottom: 0;
+  color: #fff;
+  padding: 0 30rpx;
+  .submite_order {
+    width: 200rpx;
+    height: 86rpx;
+    text-align: center;
+    line-height: 86rpx;
+    background: #0a7253;
+    border-radius: 6rpx;
+  }
+  .nav_left {
+    view:nth-of-type(1) {
+      font-size: 26rpx;
+      margin-bottom: 10rpx;
     }
-    .nav_left{
-        view:nth-of-type(1){
-            font-size:26rpx;
-            margin-bottom:10rpx;
-        }
-        view:nth-of-type(2){
-            font-size:36rpx;
-        }
+    view:nth-of-type(2) {
+      font-size: 36rpx;
     }
+  }
 }
 
 // 订单信息
@@ -179,15 +179,15 @@ page {
 <template>
     <view class="container">
         <!-- 地址信息 -->
-        <view class="address">
+        <view class="address" @tap="selectAddress">
             <view class="address_icon">
                 <image src="https://qncdn.playonwechat.com/hepulanShop/submit_order_address.png"></image>
             </view>
             <view class="info_right">
                 <view class="info">
                     <text>收货人：</text>
-                    <text>{{address.name}}</text>{{address.phone}}</view>
-                <view class="address_info">{{address.address}}</view>
+                    <text>{{persionName}}</text>{{phone}}</view>
+                <view class="address_info">{{address}}</view>
             </view>
         </view>
         <!-- 订单信息 -->
@@ -234,44 +234,127 @@ page {
                 <view>共1件商品</view>
                 <view>总计：￥19.99</view>
             </view>
-            <view class="submite_order">提交订单</view>
+            <view class="submite_order" @tap="submitOrder">提交订单</view>
         </view>
     </view>
 </template>
 
 <script>
-import wepy from 'wepy'
+import wepy from "wepy";
+import comm from "../../comm/comm";
+import tip from "../../comm/tip";
+import wxRequest from "../../comm/wxRequest";
+import api from "../../api/api";
 export default class extends wepy.page {
-    config = {
-        navigationBarTitleText: "提交订单",
-        navigationBarBackgroundColor: '#16382e',
-        navigationBarTextStyle: '#fff'
-    }
-    data = {
-        address: {
-            name: "黄大师",
-            phone: "15972596959",
-            address: "广东省深圳市大运软件小镇101"
-        },
-        product: [{
-            img: "http://iph.href.lu/344x208",
-            name: "禾葡兰化妆品装饰包包",
-            type: "天蓝色",
-            num: 2,
-            oldprice: 39.9,
-            price: 19.9
-        }, {
-            img: "http://iph.href.lu/344x208",
-            name: "禾葡兰化妆装饰包包",
-            type: "天蓝色",
-            num: 2,
-            oldprice: 39.9,
-            price: 19.9
-        }]
-    }
+  config = {
+    navigationBarTitleText: "提交订单",
+    navigationBarBackgroundColor: "#16382e",
+    navigationBarTextStyle: "#fff"
+  };
+  data = {
+    address: "",
+    order: "",
+    personName: "",
+    phone: "",
+    product: [
+      {
+        img: "http://iph.href.lu/344x208",
+        name: "禾葡兰化妆品装饰包包",
+        type: "天蓝色",
+        num: 2,
+        oldprice: 39.9,
+        price: 19.9
+      },
+      {
+        img: "http://iph.href.lu/344x208",
+        name: "禾葡兰化妆装饰包包",
+        type: "天蓝色",
+        num: 2,
+        oldprice: 39.9,
+        price: 19.9
+      }
+    ],
+    hasAddress: 0
+  };
 
-    onLoad() {
-        console.log(111111)
+  methods = {
+    selectAddress() {
+      let that = this;
+      wx.chooseAddress({
+        success: function(res) {
+          console.log(res.userName);
+          console.log(res.postalCode);
+          console.log(res.provinceName);
+          console.log(res.cityName);
+          console.log(res.countyName);
+          console.log(res.detailInfo);
+          console.log(res.nationalCode);
+          console.log(res.telNumber);
+          that.address = `${res.provinceName}${res.cityName}${res.countyName}${res.detailInfo}`;
+          that.personName = `${res.userName}`;
+          that.phone = `${res.telNumber}`;
+          comm.wxRequest(
+            {
+              query: {
+                id: that.order,
+                uid: wx.getStorageSync("uid"),
+                address: `${res.provinceName}${res.cityName}${res.countyName}${res.detailInfo}`,
+                phone: `${res.telNumber}`,
+                personName: `${res.userName}`
+              }
+            },
+            api.addressSumit,
+            function(res) {
+              console.log("order", that.order);
+              console.log(res);
+              if (res.data.status == "1") {
+                that.hasAddress = 1;
+              }
+            }
+          );
+          that.$apply();
+        }
+      });
+    },
+    submitOrder() {
+      let that = this;
+      console.log(this.hasAddress);
+      if (!this.hasAddress) {
+        tip.alert("请选择收货地址");
+        return false;
+      }
+      comm.wxRequest(
+        { query: { uid: wx.getStorageSync("uid"), id: this.order } },
+        api.orderSumit,
+        function(res) {
+          console.log(res);
+          if (res.data.status == "1") {
+            wx.requestPayment({
+              timeStamp: res.data.data.timeStamp,
+              nonceStr: res.data.data.nonceStr,
+              package: res.data.data.package,
+              signType: "MD5",
+              paySign: res.data.data.paySign,
+              success: function(res) {
+                  tip.success("支付成功")
+              },
+              fail: function(res) {
+                  console.log("用户取消支付")
+                  tip.alert("用户取消支付")
+              }
+            });
+          }
+        }
+      );
     }
-}    
+  };
+
+  onLoad(options) {
+    let order = options.order;
+    // let order = "56.80.73.61";
+    this.order = order;
+    console.log(this.order);
+    // comm.wxRequest({ query: { uid: wx.getStorageSync("uid") } });
+  }
+}
 </script>
