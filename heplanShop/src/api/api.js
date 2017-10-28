@@ -30,9 +30,14 @@ const addressSumit = apiUrl + '/shop/Order/singlePerfect'
 const orderSumit = apiUrl + '/shop/Order/singlePay'
 // 保存用户信息
 const saveUserInfo = apiUrl + '/shop/User/upgrade'
-
-
-
+// 生成团购订单
+const groupOrder = apiUrl + '/shop/Order/group'
+// 分享拼团
+const shareGroup = apiUrl + '/shop/Order/shareGroup'
+// 加入团购 
+const joinGroupOrder = apiUrl + '/shop/Order/joinGroup'
+// 团购支付
+const groupPay = apiUrl + '/shop/Order/groupPay'
 
 module.exports = {
     getUid,
@@ -49,5 +54,9 @@ module.exports = {
     delShopGoods,
     onlyBuy,
     addressSumit,
-    orderSumit
+    orderSumit,
+    groupOrder,
+    shareGroup,
+    joinGroupOrder,
+    groupPay
 }

@@ -266,15 +266,15 @@ page {
         min-height: 100rpx;
         margin-top: 40rpx;
       }
-      .detail_content{
-          image{
-              width: 482rpx;
-          }
-          text:nth-of-type(1){
-              width:80rpx;
-              display: inline-block;
-              text-align: right;
-          }
+      .detail_content {
+        image {
+          width: 482rpx;
+        }
+        text:nth-of-type(1) {
+          width: 80rpx;
+          display: inline-block;
+          text-align: right;
+        }
       }
     }
   }
@@ -334,7 +334,7 @@ page {
                     <view class="price">￥{{detail.price/100}}</view>
                     <view class="tiip">单独购买</view>
                 </view>
-                <view class="group_buy">
+                <view class="group_buy" @tap="toGroup({{goodsNum}})">
                     <view class="price">￥{{detail.groupPrice/100}}</view>
                     <view class="tiip">{{detail.num}}人拼团</view>
                 </view>
@@ -391,7 +391,8 @@ export default class extends wepy.page {
   data = {
     group_id: 0,
     detail: {},
-    goodsNum:1,//商品数量
+    goodsNum: 1, //商品数量
+    groupIndex: "",
     navList: [
       {
         text: "商品详情",
@@ -413,6 +414,7 @@ export default class extends wepy.page {
         color[i].active = false;
       }
       color[index].active = true;
+      this.groupIndex = index + 1;
       this.data.detail.option.options = color;
       this.$apply();
     },
@@ -442,35 +444,67 @@ export default class extends wepy.page {
       );
     },
     // 切换商品详情和商品参数
-    changeDetail(index){
-        let navList = this.navList;
-        for (var i = 0; i < navList.length; i++) {
-            navList[i].active = false;
-        }
-        navList[index].active = true;
+    changeDetail(index) {
+      let navList = this.navList;
+      for (var i = 0; i < navList.length; i++) {
+        navList[i].active = false;
+      }
+      navList[index].active = true;
     },
-    cutNum(e){
-      if (e>0) {
-         this.goodsNum+=1
-         this.$apply();
-      }else if(e<0){
-         this.goodsNum = this.goodsNum>1?(this.goodsNum-=1):1
-         this.$apply();
+    cutNum(e) {
+      if (e > 0) {
+        this.goodsNum += 1;
+        this.$apply();
+      } else if (e < 0) {
+        this.goodsNum = this.goodsNum > 1 ? (this.goodsNum -= 1) : 1;
+        this.$apply();
       }
     },
     // 单独购买
-    toOnlyBuy(){
-        console.log(1111)
-        wx.navigateTo({
-         url: `../groupOnlyBuy/gruopOnlyBuy?id=${this.group_id}`
-        })
+    toOnlyBuy() {
+      wx.navigateTo({
+        url: `../groupOnlyBuy/gruopOnlyBuy?id=${this.group_id}&buytype=onlybuy`
+      });
+    },
+    // 拼团
+    toGroup(goodsNum) {
+      let that = this;
+      if (!this.groupIndex) {
+        tip.alert("请选择商品" + this.detail.option.group, 1500);
+        return false;
+      }
+      comm.wxRequest(
+        {
+          query: {
+            uid: wx.getStorageSync("uid"),
+            group: {
+              id: this.group_id,
+              num: goodsNum,
+              option: {
+                option: this.detail.option.group,
+                value: this.detail.option.options[this.groupIndex - 1].option
+              }
+            }
+          }
+        },
+        api.groupOrder,
+        function(res) {
+          if (res.data.status == "1") {
+            wx.navigateTo({
+              url: `../submitOrder/submitOrder?order=${res.data.data.order}&buytype=gruopbuy`
+            });
+          }else{
+              tip.error(res.data.data.msg)
+          }
+        }
+      );
     }
   };
 
   onLoad(options) {
     console.log(options);
-    this.group_id = options.id;
-    // this.group_id = "56.119.61.61";
+    // this.group_id = options.id;
+    this.group_id = "56.65.61.61";
     this.$apply();
   }
 

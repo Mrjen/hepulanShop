@@ -281,7 +281,11 @@ page {
 </template>
 
 <script>
-import wepy from "wepy";
+import wepy from "wepy"
+import comm from "../../comm/comm";
+import tip from "../../comm/tip";
+import wxRequest from "../../comm/wxRequest";
+import api from "../../api/api";
 export default class extends wepy.page {
   config = {
     navigationBarTitleText: "拼团",
@@ -350,6 +354,20 @@ export default class extends wepy.page {
           }
         ]
       }]
-  };
+  }
+
+  methods = {
+
+  }
+
+  onLoad(options){
+    console.log(options)
+    let order = "56.47.73.61"
+    comm.wxRequest({query:{id:order,uid:wx.getStorageSync('uid')}},api.shareGroup,function(res){
+      console.log(res)
+      let groupid = res.data.data.groupId;
+    })
+  }
+
 }
 </script>

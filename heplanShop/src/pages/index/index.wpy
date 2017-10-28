@@ -227,7 +227,7 @@ page {
             </view>
         </navigator>
         <!-- 女人街  -->
-        <repeat wx:for="{{productList}}" wx:for-item="index">
+        <repeat wx:for="{{productList}}">
            <view class="product_list">
             <view class="productNav flex">
                 <view class="nav_item" @tap="changeNav({{index}})" wx:for="{{productNav}}" wx:key="index" style="background:{{item.active?'#17392f':''}};color:{{item.active?'#fff':''}}">{{item.text}}</view>
@@ -289,8 +289,7 @@ export default class extends wepy.page {
       }
     ],
     pageTime: "00:00:00",
-    imgUrls: [],
-    test:""
+    imgUrls: []
   };
 
   methods = {
@@ -313,21 +312,8 @@ export default class extends wepy.page {
     console.log("show index");
     let that = this;
     let imgUrls = this.imgUrls;
-    // that.test = api.Home;
-    that.$apply();
-    
-    wepy.request({
-      url:api.Home,
-      success(res){
-        console.log(res)
-        that.test = "wepy 执行了"
-        that.$apply();
-      }
-    })
-
-    comm.wxRequest({ query:{id:1} }, api.Home, function(res) {
+    comm.wxRequest({ query: {} }, api.Home, function(res) {
       // console.log(res);
-      // that.test = "show index";
       let imgUrls = res.data.data.banner;
       let productRow = res.data.data.group;
       let productList = res.data.data.sellGoods;
@@ -340,14 +326,9 @@ export default class extends wepy.page {
       for (let i = 0; i < productList.length; i++) {
         // console.log(productList[i].goods)
         for (let j = 0; j < productList[i].goods.length; j++) {
-          productList[i].goods[j].logo = `${res.data.data.domain}${productList[
-            i
-          ].goods[j].logo}`;
+          productList[i].goods[j].logo = `${res.data.data.domain}${productList[i].goods[j].logo}`;
         }
       }
-      tip.success("我执行了",2000);
-      that.pageTime = "我执行了"
-      // console.log(productList)
       that.productRow = productRow;
       that.imgUrls = imgUrls;
       that.productList = productList;

@@ -274,13 +274,14 @@ export default class extends wepy.page {
         price: 19.9
       }
     ],
-    hasAddress: 0
+    hasAddress: 0, //判断是否填写地址
+    buytype:""   //判断购买方式  onlybuy：单独购买   gruopbuy：团购
   };
 
   methods = {
     selectAddress() {
       let that = this;
-      wx.chooseAddress({
+      wepy.chooseAddress({
         success: function(res) {
           console.log(res.userName);
           console.log(res.postalCode);
@@ -350,10 +351,16 @@ export default class extends wepy.page {
   };
 
   onLoad(options) {
+      console.log(options)
     let order = options.order;
+    this.buytype = options.buytype;
     // let order = "56.80.73.61";
     this.order = order;
     console.log(this.order);
+    let _apiurl = "";
+    if (options.buytype=='onlybuy') {
+        _apiurl = api.
+    }
     // comm.wxRequest({ query: { uid: wx.getStorageSync("uid") } });
   }
 }
