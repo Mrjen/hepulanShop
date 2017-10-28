@@ -332,11 +332,11 @@ export default class extends wepy.page {
           console.log(res);
           if (res.data.status == "1") {
             wx.requestPayment({
-              timeStamp: res.data.data.timeStamp,
-              nonceStr: res.data.data.nonceStr,
-              package: res.data.data.package,
+              timeStamp: res.data.data.payData.timeStamp,
+              nonceStr: res.data.data.payData.nonceStr,
+              package: res.data.data.payData.package,
               signType: "MD5",
-              paySign: res.data.data.paySign,
+              paySign: res.data.data.payData.paySign,
               success: function(res) {
                   tip.success("支付成功")
               },
@@ -352,7 +352,7 @@ export default class extends wepy.page {
   };
 
   onLoad(options) {
-      console.log(options)
+      console.log(options,"options")
     // let order = options.order;
     this.buytype = options.buytype;
     let order = "56.47.77.61";

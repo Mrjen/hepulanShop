@@ -233,7 +233,7 @@ page {
 <view class="container">
     <!-- 商品信息 -->
    <view class="product_info">
-       <view class="img"><image src="{{product.img}}"></image></view>
+       <view class="img"><image src="{{product.logo}}"></image></view>
        <view class="info">
            <view class="name">{{product.name}}</view>
            <view class="price_box">
@@ -300,19 +300,8 @@ export default class extends wepy.page {
       price: "39.99",
       group_num: 2,
       isready:1,
-      persion_list: [
-        {
-          avatarurl: "http://iph.href.lu/156x156",
-          pid: 30,
-          is_head: 1
-        },
-        {
-          avatarurl: "http://iph.href.lu/156x156",
-          pid: 30,
-          is_head: 0
-        }
-      ]
     },
+    groupUser:[],
     groupList:[{
         name: "美瞳赋活护理套装",
         group_num: "5555",
@@ -362,10 +351,19 @@ export default class extends wepy.page {
 
   onLoad(options){
     console.log(options)
-    let order = "56.47.73.61"
-    comm.wxRequest({query:{groudId:order,uid:wx.getStorageSync('uid')}},api.orderGroupDetail,function(res){
+    // this.order = options.order;
+    this.order = "59f4175178198";
+    this.$apply();
+  }
+
+  onShow(){
+    let that = this;
+     comm.wxRequest({query:{groupId:this.order,uid:wx.getStorageSync('uid')}},api.orderGroupDetail,function(res){
       console.log(res)
-      let groupid = res.data.data.groupId;
+       that.product = res.data.data.group;
+       that.groupUser = res.data.data.groupUser;
+       that.$apply();
+       console.log(that)
     })
   }
 
