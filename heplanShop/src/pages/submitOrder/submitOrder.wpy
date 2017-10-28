@@ -361,7 +361,7 @@ export default class extends wepy.page {
     let _apiurl = "";
     if (options.buytype=='onlybuy') {
         _apiurl = api.onlyBuy
-    }esle if(options.buytype=='gruopbuy'){
+    }else if(options.buytype=='gruopbuy'){
         _apiurl = api.groupPay
     }
     console.log(_apiurl,"_apiurl")
