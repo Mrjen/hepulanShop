@@ -94,6 +94,7 @@ page {
               <view class="price">￥{{item.groupPrice/100}}</view>
               <view class="old_price">￥{{item.price/100}}</view>    
           </view>
+          {{item.id}}
           <navigator url="../fightDetail/fightDetail?id={{item.id}}">去开团</navigator>
           </view>
       </view>

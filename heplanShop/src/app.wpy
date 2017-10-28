@@ -61,10 +61,10 @@ export default class extends wepy.app {
   config = {
     pages: [
       
-      "pages/inviteFight/inviteFight",
+      
       "pages/index/index",
       "pages/fightDetail/fightDetail",
-      
+      "pages/inviteFight/inviteFight",
       "pages/shopCart/shopCart",
       "pages/demo",
       "pages/submitOrder/submitOrder",

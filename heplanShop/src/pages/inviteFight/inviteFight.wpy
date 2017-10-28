@@ -51,6 +51,7 @@ page {
     position: relative;
     .item {
       margin: 10rpx;
+      height: 90rpx;
     }
     .avatarurl {
       width: 80rpx;
@@ -237,8 +238,8 @@ page {
        <view class="info">
            <view class="name">{{product.name}}</view>
            <view class="price_box">
+               <view>￥{{product.groupPrice}}</view>
                <view>￥{{product.price}}</view>
-               <view>￥{{product.oldprice}}</view>
            </view>
        </view>
    </view>
@@ -246,17 +247,19 @@ page {
    <view class="group_view">
        <view>已有3人参加，正在拼团</view>
        <view class="persion_list">
-           <view class="item" wx:for="{{product.persion_list}}">
-              <view class="avatarurl"><image src="{{item.avatarurl}}"></image></view>
-              <view class="tip" wx:if="{{item.is_head=='1'?true:false}}">团长</view>
+           <view class="item" wx:for="{{groupUser}}">
+              <view class="avatarurl"><image src="{{item.avatarUrl}}"></image></view>
+              <view class="tip" wx:if="{{index=='0'?true:false}}">团长</view>
            </view>
        </view>
+       <view>{{pageTime}}</view>
        <navigator class="rules" url="../groupRules/groupRules">拼团规则</navigator>
    </view>
    <!-- 按钮显示区 -->
    <view class="button_box">
-       <button wx:if="{{product.isready=='1'?false:true}}" open-type="share">分享给微信好友</button>
-       <navigator wx:else>查看订单详情</navigator>
+        <button class="join_group" wx:if="groupstatus" wx:if="{{joined=='0'?'true':false}}">加入拼团</button>
+       <button wx:elif="{{joined =='1'?true:false}}" open-type="share">分享给微信好友</button>
+       <navigator wx:elif="">查看订单详情</navigator>
    </view>
 
 <!-- 更多拼团 -->
@@ -265,15 +268,15 @@ page {
         <view>更多拼团</view><navigator url="../fightGroup/fightGroup" hover-class="none">更多</navigator>
     </view>
     <view class="group_item" wx:for="{{groupList}}" wx:key="index">
-          <view class="img"><image src="{{item.img}}"></image></view>
+          <view class="img"><image src="{{item.logo}}"></image></view>
           <view class="info">
              <view class="name">{{item.name}}</view>
-          <view class="has_group"><image wx:for="{{item.group_img}}" wx:for-item="group_img" src="{{group_img.img}}"></image>已团{{item.group_num}}件</view>
+          <view class="has_group"><image wx:for="{{item.users}}" wx:for-item="users" src="{{users.avatarUrl}}"></image>已团{{item.group_num}}件</view>
           <view class="price_box">
-              <view class="price">￥{{item.price}}</view>
-              <view class="old_price">￥{{item.oldprice}}</view>    
+              <view class="price">￥{{item.groupPrice}}</view>
+              <view class="old_price">￥{{item.price}}</view>    
           </view>
-          <navigator url="../fightDetail/fightDetail">去开团</navigator>
+          <navigator url="../fightDetail/fightDetail?id={{item.id}}">去开团</navigator>
           </view>
       </view>
 </view>
@@ -302,47 +305,10 @@ export default class extends wepy.page {
       isready:1,
     },
     groupUser:[],
-    groupList:[{
-        name: "美瞳赋活护理套装",
-        group_num: "5555",
-        oldprice: "198.00",
-        price: "50.00",
-        img: "https://qncdn.playonwechat.com/hepulanShop/group_fitht01.png",
-        group_img: [
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          },
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          },
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          }
-        ]
-      },{
-        name: "美瞳赋活护理套装",
-        group_num: "5555",
-        oldprice: "198.00",
-        price: "50.00",
-        img: "https://qncdn.playonwechat.com/hepulanShop/group_fitht01.png",
-        group_img: [
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          },
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          },
-          {
-            id: 0,
-            img: "http://iph.href.lu/152x152"
-          }
-        ]
-      }]
+    groupList:[],
+    pageTime:"",  //拼团倒计时
+    groupstatus:"",  //
+    joined:0,//用户是否加入拼团
   }
 
   methods = {
@@ -350,22 +316,85 @@ export default class extends wepy.page {
   }
 
   onLoad(options){
-    console.log(options)
+    console.log(options,"查看页面参数")
     // this.order = options.order;
+    this.groupid = options.groupid;
     this.order = "59f4175178198";
     this.$apply();
-  }
-
-  onShow(){
     let that = this;
      comm.wxRequest({query:{groupId:this.order,uid:wx.getStorageSync('uid')}},api.orderGroupDetail,function(res){
       console.log(res)
+       res.data.data.group.logo = `${api.apiUrl}/${res.data.data.group.logo}`
        that.product = res.data.data.group;
-       that.groupUser = res.data.data.groupUser;
+        that.groupstatus = res.data.data.group.status;
+        that.joined = res.data.data.group.joined;
+          console.log(that.joined,"that")
+       let groupList = res.data.data.recommend;
+       let time = res.data.data.group.endTime*1000;
+       let _time = setInterval(() => {
+         time -=1000;
+         if(time =='0'){
+           time = "00:00:00";
+           clearInterval(_time);
+           that.pageTime = "00:00:00";
+           that.$apply();
+         }else{
+           that.pageTime = comm.dateformat(time);
+           that.$apply();
+         }
+       },1000)
+       let groupUser = res.data.data.groupUser;
+       for (let i = 0; i < groupUser.length; i++) {
+          groupUser[i].avatarUrl = `${api.apiUrl}/${groupUser[i].avatarUrl}` 
+         
+       }
+       for (let i = 0; i < groupList.length; i++) {
+          groupList[i].logo = `${api.apiUrl}/${groupList[i].logo}`
+          for (let j = 0; j < groupList[i].users.length; j++) {
+            groupList[i].users[j].avatarUrl = `${api.apiUrl}/${groupList[i].users[j].avatarUrl}`
+          }
+       }
+       that.groupList = groupList;
+       that.groupUser = groupUser;
+       console.log(groupList)
        that.$apply();
-       console.log(that)
     })
   }
+
+  onShow(){
+    console.log("show")
+    
+  }
+
+  onReady(){
+    
+  }
+
+  onShareAppMessage(res) {
+    if (res.from === "button") {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: '禾葡兰护肤商城',
+      path: '/pages/inviteFight/inviteFight?groupid='+`${this.product.groupId}`,
+      success: function(res) {
+        // 转发成功
+        console.log("转发成功")
+      },
+      fail: function(res) {
+        // 转发失败
+      }
+    }
+  }
+
+  watch = {
+    pageTime(newValue, oldValue) {
+      //   console.log(`num value: ${oldValue} -> ${newValue}`)
+    }
+  }
+
+  
 
 }
 </script>
