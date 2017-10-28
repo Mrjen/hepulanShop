@@ -363,7 +363,7 @@ export default class extends wepy.page {
   onLoad(options){
     console.log(options)
     let order = "56.47.73.61"
-    comm.wxRequest({query:{id:order,uid:wx.getStorageSync('uid')}},api.shareGroup,function(res){
+    comm.wxRequest({query:{groudId:order,uid:wx.getStorageSync('uid')}},api.orderGroupDetail,function(res){
       console.log(res)
       let groupid = res.data.data.groupId;
     })

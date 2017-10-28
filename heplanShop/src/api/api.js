@@ -38,6 +38,8 @@ const shareGroup = apiUrl + '/shop/Order/shareGroup'
 const joinGroupOrder = apiUrl + '/shop/Order/joinGroup'
 // 团购支付
 const groupPay = apiUrl + '/shop/Order/groupPay'
+// 团购订单详情
+const orderGroupDetail = apiUrl + '/shop/Order/groupDetail'
 
 module.exports = {
     getUid,
@@ -58,5 +60,6 @@ module.exports = {
     groupOrder,
     shareGroup,
     joinGroupOrder,
-    groupPay
+    groupPay,
+    orderGroupDetail
 }
