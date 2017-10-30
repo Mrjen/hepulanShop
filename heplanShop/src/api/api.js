@@ -44,6 +44,10 @@ const joinGroupOrder = apiUrl + '/shop/Order/joinGroup'
 const groupPay = apiUrl + '/shop/Order/groupPay'
 // 团购订单详情
 const orderGroupDetail = apiUrl + '/shop/Order/groupDetail'
+// 团购订单提交页面详情
+const groupOrderDetail = apiUrl + '/shop/Order/groupOrderDetail'
+//单独购买订单列表
+const onlyBuyOrderList = apiUrl + '/shop/Order/singleList'
 
 
 
@@ -69,5 +73,6 @@ module.exports = {
     shareGroup,
     joinGroupOrder,
     groupPay,
-    orderGroupDetail
+    orderGroupDetail,
+    groupOrderDetail,
 }

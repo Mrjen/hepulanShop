@@ -525,8 +525,8 @@ export default class extends wepy.page {
 
   onLoad(options) {
     console.log(options);
-    // this.group_id = options.id;
-    this.group_id = "56.119.61.61";
+    this.group_id = options.id;
+    // this.group_id = "56.119.61.61";
     this.$apply();
   }
 

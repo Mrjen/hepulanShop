@@ -391,12 +391,15 @@ export default class extends wepy.page {
     console.log(this.order);
     let _apiurl = "";
     let address_api = "";
+    let _detailurl = "";
     if (options.buytype == "onlybuy") {
       _apiurl = api.orderSumit;
       address_api = api.singleAddressSumit;
+      _detailurl = api.singleDetail
     } else if (options.buytype == "gruopbuy") {
       _apiurl = api.groupPay;
       address_api = api.groupAddressSumit;
+      _detailurl = api.groupOrderDetail
     }
     console.log(api.onlyBuy, "api");
     console.log(_apiurl, "_apiurl", address_api, "address_api");
@@ -405,7 +408,7 @@ export default class extends wepy.page {
     this.$apply();
     comm.wxRequest(
       { query: { uid: wx.getStorageSync("uid"), order: order } },
-      api.singleDetail,
+      _detailurl,
       function(res) {
         console.log(res, "页面熟据");
         if (res.data.status == "1") {

@@ -8,7 +8,7 @@
             <view class="name">{{userInfo.nickName}}</view>
         </view>
         <!-- 我的订单 -->
-        <navigator class="my_order" url="../index/index" hover-class="none">
+        <navigator class="my_order" url="../myOrder/myOrder" hover-class="none">
             <text>我的订单</text>
             <text>查看全部订单</text>
         </navigator>
