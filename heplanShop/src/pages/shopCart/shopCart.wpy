@@ -299,7 +299,7 @@ export default class extends wepy.page {
         function(res) {
           if (res.data.status == "1") {
             wepy.navigateTo({
-              url: `../submitOrder/submitOrder?order=${res.data.data.order}`
+              url: `../submitOrder/submitOrder?order=${res.data.data.order}&buytype=onlybuy`
             });
           }else{
               tip.alert(res.data.data.message)
@@ -331,7 +331,7 @@ export default class extends wepy.page {
   }
   // 判断是否全部选中
   allSelect(list) {
-    let isAllSelect = 0;
+    let isAllSelect = 0;  //默认非全选
     let arr = [];
     for (let i = 0; i < list.length; i++) {
       arr.push(Number(list[i].selected));
@@ -354,6 +354,9 @@ export default class extends wepy.page {
     if (this.Allselect > 0) {
       for (let i = 0; i < this.list.length; i++) {
         this.list[i].selected = 0;
+        comm.wxRequest({query:{uid:wx.getStorageSync('uid'),selected:0}},api.shopSelectAll,function(res){
+        //  console.log(res,11111)
+      })
       }
     } else {
       for (let i = 0; i < this.list.length; i++) {

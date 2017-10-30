@@ -60,17 +60,14 @@ import api from "./api/api";
 export default class extends wepy.app {
   config = {
     pages: [
-      
-      
       "pages/index/index",
       "pages/fightDetail/fightDetail",
-      "pages/inviteFight/inviteFight",
       "pages/shopCart/shopCart",
       "pages/demo",
       "pages/submitOrder/submitOrder",
       "pages/groupOnlyBuy/gruopOnlyBuy",
       "pages/fightGroup/fightGroup",
-      
+      "pages/inviteFight/inviteFight",
       "pages/mine/mine",
       "pages/myOrderDetail/myOrderDetail",
       "pages/myOrder/myOrder",

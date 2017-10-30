@@ -19,15 +19,18 @@
                 <button class="call_mine" open-type="contact"><image src="https://qncdn.playonwechat.com/hepulanShop/submit_order_lianxi.png"/>联系我们</button>
             </view>
             <view class="product_list"  wx:for="{{product}}">
-                <image class="product_img" src="{{item.img}}"/>
+                <image class="product_img" src="{{item.logo}}"/>
                 <view class="product_info">
                     <view class="product_name">{{item.name}}</view>
                     <view class="type">
                         <view class="type_info">
-                            <view>颜色</view>
-                            <view>{{item.type}}</view>
+                          <view>
+                            <view>{{item.option.option}}</view>
+                            <view>{{item.option.value}}</view>
+                          </view>  
+                          <view>x{{item.num}}</view>
                         </view>
-                        <view>x{{item.num}}</view>
+                        <view>￥{{item.price}}</view>
                     </view>
                 </view>
             </view>
@@ -38,23 +41,23 @@
                 <view>快递运费：
                     <text>全国包邮</text>
                 </view>
-                <view>￥0.00</view>
+                <view>￥{{pagePrice.expressFree/100}}</view>
             </view>
             <view class="express_box border_bottom">
                 <view>店铺合计：
                     <text/>
                 </view>
-                <view>￥999.00</view>
+                <view>￥{{pagePrice.goodsFree/100}}</view>
             </view>
             <view class="msg">
-                <textarea placeholder="有什么想对我们说的可以写在这里哦~"/>
+                <textarea placeholder="有什么想对我们说的可以写在这里哦~" bindinput="feedBack"/>
             </view>
         </view>
         <!-- 底部导航 -->
         <view class="bottom_nav">
             <view class="nav_left">
-                <view>共1件商品</view>
-                <view>总计：￥19.99</view>
+                <view>共{{productNum}}件商品</view>
+                <view>总计：￥{{pagePrice.totalFree/100}}</view>
             </view>
             <view class="submite_order" bindtap="submitOrder">提交订单</view>
         </view>

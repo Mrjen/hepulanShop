@@ -498,6 +498,11 @@ export default class extends wepy.page {
     // 立即购买
     onlyBuy(){
        let that = this;
+       if (!this.goodsIndex) {
+        console.log(this.detail.option.group);
+        tip.alert("请选择商品" + this.detail.option.group, 1500);
+        return false;
+      }
        let goods = [{
           goods:this.detail.goods,
           num:this.goodsNum,
@@ -509,6 +514,11 @@ export default class extends wepy.page {
        }]
        comm.wxRequest({query:{goods:goods,uid:wx.getStorageSync('uid')}},api.onlyBuy,function(res){
          console.log(res)
+         if (res.data.status=='1') {
+            wx.navigateTo({
+              url: `../submitOrder/submitOrder?order=${res.data.data.order}&buytype=onlybuy`
+            })
+         }
        })
     }
   };

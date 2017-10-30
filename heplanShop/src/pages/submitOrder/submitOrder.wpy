@@ -98,12 +98,13 @@ page {
       }
       .type {
         font-size: 30rpx;
-        display: flex;
-        justify-content: space-between;
         .type_info {
           display: flex;
+          justify-content: space-between;
+          margin-bottom: 10rpx;
           view:nth-of-type(1) {
             margin-right: 20rpx;
+            display: flex;
           }
         }
       }
@@ -197,15 +198,18 @@ page {
                 <button class="call_mine" open-type="contact"><image src="https://qncdn.playonwechat.com/hepulanShop/submit_order_lianxi.png"></image>联系我们</button>
             </view>
             <view class="product_list" wx:for="{{product}}">
-                <image class="product_img" src="{{item.img}}"></image>
+                <image class="product_img" src="{{item.logo}}"></image>
                 <view class="product_info">
                     <view class="product_name">{{item.name}}</view>
                     <view class="type">
                         <view class="type_info">
-                            <view>颜色</view>
-                            <view>{{item.type}}</view>
+                          <view>
+                            <view>{{item.option.option}}</view>
+                            <view>{{item.option.value}}</view>
+                          </view>  
+                          <view>x{{item.num}}</view>
                         </view>
-                        <view>x{{item.num}}</view>
+                        <view>￥{{item.price}}</view>
                     </view>
                 </view>
             </view>
@@ -216,23 +220,23 @@ page {
                 <view>快递运费：
                     <text>全国包邮</text>
                 </view>
-                <view>￥0.00</view>
+                <view>￥{{pagePrice.expressFree/100}}</view>
             </view>
             <view class="express_box border_bottom">
                 <view>店铺合计：
                     <text></text>
                 </view>
-                <view>￥999.00</view>
+                <view>￥{{pagePrice.goodsFree/100}}</view>
             </view>
             <view class="msg">
-                <textarea placeholder="有什么想对我们说的可以写在这里哦~"></textarea>
+                <textarea placeholder="有什么想对我们说的可以写在这里哦~" @input="feedBack"></textarea>
             </view>
         </view>
         <!-- 底部导航 -->
         <view class="bottom_nav">
             <view class="nav_left">
-                <view>共1件商品</view>
-                <view>总计：￥19.99</view>
+                <view>共{{productNum}}件商品</view>
+                <view>总计：￥{{pagePrice.totalFree/100}}</view>
             </view>
             <view class="submite_order" @tap="submitOrder">提交订单</view>
         </view>
@@ -275,13 +279,17 @@ export default class extends wepy.page {
       }
     ],
     hasAddress: 0, //判断是否填写地址
-    buytype:"",   //判断购买方式  onlybuy：单独购买   gruopbuy：团购
-    _apiurl:""
+    buytype: "", //判断购买方式  onlybuy：单独购买   gruopbuy：团购
+    _apiurl: "",
+    pagePrice: "", //  页面合计价格数据
+    feedback: "", //用户留言
+    productNum:""//商品数量
   };
 
   methods = {
     selectAddress() {
       let that = this;
+      console.log(this.address_api, "address_api");
       wepy.chooseAddress({
         success: function(res) {
           console.log(res.userName);
@@ -305,7 +313,7 @@ export default class extends wepy.page {
                 personName: `${res.userName}`
               }
             },
-            api.addressSumit,
+            that.address_api,
             function(res) {
               console.log("order", that.order);
               console.log(res);
@@ -326,7 +334,13 @@ export default class extends wepy.page {
         return false;
       }
       comm.wxRequest(
-        { query: { uid: wx.getStorageSync("uid"), id: this.order } },
+        {
+          query: {
+            uid: wx.getStorageSync("uid"),
+            id: this.order,
+            feedback: this.feedback
+          }
+        },
         this._apiurl,
         function(res) {
           console.log(res);
@@ -339,40 +353,78 @@ export default class extends wepy.page {
               signType: "MD5",
               paySign: res.data.data.payData.paySign,
               success: function(res) {
-                  tip.success("支付成功");
-                  console.log("支付成功",res)
+                tip.success("支付成功");
+                console.log("支付成功", res,that.buytype);
+                if (that.buytype == "gruopbuy") {
                   wx.navigateTo({
                     url: `../inviteFight/inviteFight?groupid=${groupid}`
-                  })
+                  });
+                } else if (that.buytype == "onlybuy") {
+                  wx.switchTab({
+                    url: `../index/index`
+                  });
+                }
               },
               fail: function(res) {
-                  console.log("用户取消支付")
-                  tip.alert("用户取消支付")
+                console.log("用户取消支付");
+                tip.alert("用户取消支付");
               }
             });
           }
         }
       );
+    },
+    // 留言
+    feedBack(e) {
+      console.log(e.detail.value);
+      this.feedback = e.detail.value;
     }
   };
 
   onLoad(options) {
-      console.log(options,"options 页面来源")
+    let that = this;
+    console.log(options, "options 页面来源");
     let order = options.order;
     this.buytype = options.buytype;
     // let order = "56.47.77.61";
     this.order = order;
     console.log(this.order);
     let _apiurl = "";
-    if (options.buytype=='onlybuy') {
-        _apiurl = api.onlyBuy
-    }else if(options.buytype=='gruopbuy'){
-        _apiurl = api.groupPay
+    let address_api = "";
+    if (options.buytype == "onlybuy") {
+      _apiurl = api.orderSumit;
+      address_api = api.singleAddressSumit;
+    } else if (options.buytype == "gruopbuy") {
+      _apiurl = api.groupPay;
+      address_api = api.groupAddressSumit;
     }
-    console.log(_apiurl,"_apiurl")
+    console.log(api.onlyBuy, "api");
+    console.log(_apiurl, "_apiurl", address_api, "address_api");
     this._apiurl = _apiurl;
+    this.address_api = address_api;
     this.$apply();
-    // comm.wxRequest({ query: { uid: wx.getStorageSync("uid"),order:order}  });
+    comm.wxRequest(
+      { query: { uid: wx.getStorageSync("uid"), order: order } },
+      api.singleDetail,
+      function(res) {
+        console.log(res, "页面熟据");
+        if (res.data.status == "1") {
+          let product = res.data.data.goods;
+          let productNum = new Number();
+          that.pagePrice = res.data.data.order;
+          console.log(product);
+          
+          for (let i = 0; i < product.length; i++) {
+            product[i].logo = `${api.apiUrl}/${product[i].logo}`;
+            product[i].option = JSON.parse(product[i].option);
+            productNum += product[i].num
+          }
+          that.product = product;
+          that.productNum = productNum;
+          that.$apply();
+        }
+      }
+    );
   }
 }
 </script>

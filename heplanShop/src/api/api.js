@@ -24,10 +24,14 @@ const shopSelectAll = apiUrl + '/shop/Car/selectAll'
 const delShopGoods = apiUrl + '/shop/Car/del'
 // 单独提交订单
 const onlyBuy = apiUrl + '/shop/Order/single'
-// 保存用户收获地址
-const addressSumit = apiUrl + '/shop/Order/singlePerfect'
+// 单独购买保存用户收获地址
+const singleAddressSumit = apiUrl + '/shop/Order/singlePerfect'
+// 团购买保存用户收获地址
+const groupAddressSumit = apiUrl + '/shop/Order/groupPerfect'
 // 提交订单支付
 const orderSumit = apiUrl + '/shop/Order/singlePay'
+// 提交订单页面数据
+const singleDetail = apiUrl + '/shop/Order/singleDetail'
 // 保存用户信息
 const saveUserInfo = apiUrl + '/shop/User/upgrade'
 // 生成团购订单
@@ -40,6 +44,8 @@ const joinGroupOrder = apiUrl + '/shop/Order/joinGroup'
 const groupPay = apiUrl + '/shop/Order/groupPay'
 // 团购订单详情
 const orderGroupDetail = apiUrl + '/shop/Order/groupDetail'
+
+
 
 module.exports = {
     getUid,
@@ -55,8 +61,10 @@ module.exports = {
     shopSelectAll,
     delShopGoods,
     onlyBuy,
-    addressSumit,
+    singleAddressSumit,
+    groupAddressSumit,
     orderSumit,
+    singleDetail,
     groupOrder,
     shareGroup,
     joinGroupOrder,
