@@ -498,7 +498,7 @@ export default class extends wepy.page {
     // 立即购买
     onlyBuy(){
        let that = this;
-       let goods = {
+       let goods = [{
           goods:this.detail.goods,
           num:this.goodsNum,
           id:this.detail.id,
@@ -506,7 +506,7 @@ export default class extends wepy.page {
              option:this.detail.option.group,
              value:this.detail.option.options[this.goodsIndex-1].option
           }
-       }
+       }]
        comm.wxRequest({query:{goods:goods,uid:wx.getStorageSync('uid')}},api.onlyBuy,function(res){
          console.log(res)
        })
