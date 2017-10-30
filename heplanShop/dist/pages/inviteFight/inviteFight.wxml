@@ -1,0 +1,51 @@
+
+<view class="container">
+    <!-- 商品信息 -->
+   <view class="product_info">
+       <view class="img"><image src="{{product.logo}}"/></view>
+       <view class="info">
+           <view class="name">{{product.name}}</view>
+           <view class="price_box">
+               <view>￥{{product.groupPrice}}</view>
+               <view>￥{{product.price}}</view>
+           </view>
+       </view>
+   </view>
+   <!-- 拼团人数 -->
+   <view class="group_view">
+       <view>已有3人参加，正在拼团</view>
+       <view class="persion_list">
+           <view class="item"  wx:for="{{groupUser}}">
+              <view class="avatarurl"><image src="{{item.avatarUrl}}"/></view>
+              <view class="tip" wx:if="{{index=='0'?true:false}}">团长</view>
+           </view>
+       </view>
+       <view>{{pageTime}}</view>
+       <navigator class="rules" url="../groupRules/groupRules">拼团规则</navigator>
+   </view>
+   <!-- 按钮显示区 -->
+   <view class="button_box">
+        <button class="join_group"  wx:if="{{joined=='0'?'true':false}}" bindtap="joinGroup">加入拼团</button>
+       <button wx:elif="{{joined =='1'?true:false}}" open-type="share">分享给微信好友</button>
+       <navigator wx:elif="">查看订单详情</navigator>
+   </view>
+
+<!-- 更多拼团 -->
+<view class="more">
+    <view class="more_nav border_bottom">
+        <view>更多拼团</view><navigator url="../fightGroup/fightGroup" hover-class="none">更多</navigator>
+    </view>
+    <view class="group_item" wx:for="{{groupList}}" wx:key="index">
+          <view class="img"><image src="{{item.logo}}"/></view>
+          <view class="info">
+             <view class="name">{{item.name}}</view>
+          <view class="has_group"><image wx:for="{{item.users}}" wx:for-item="users" src="{{users.avatarUrl}}"/>已团{{item.group_num}}件</view>
+          <view class="price_box">
+              <view class="price">￥{{item.groupPrice}}</view>
+              <view class="old_price">￥{{item.price}}</view>    
+          </view>
+          <navigator url="../fightDetail/fightDetail?id={{item.id}}">去开团</navigator>
+          </view>
+      </view>
+</view>
+</view>

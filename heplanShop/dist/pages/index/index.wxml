@@ -1,0 +1,49 @@
+
+    <view class="container">
+        {{test}}
+        <!-- 搜索 -->
+        <view class="search_box flex">
+            <input type="text" confirm-type="search" bindconfirm="searchSubmit"/>
+            <view class="search_btn"/>
+        </view>
+        <!-- 轮播 -->
+        <swiper class="swiper" indicator-dots="true" autoplay="true" interval="5000" duration="1000">    
+        <block  wx:for="{{imgUrls}}" wx:key="index">
+            <swiper-item>
+                <image src="{{item.image}}" class="slide-image"/>
+            </swiper-item>
+        </block>
+    </swiper>
+
+        <!-- 商品列表 -->
+        <navigator class="product_row" url="../fightGroup/fightGroup">
+            <scroll-view scroll-x="true">
+                <view class="product_in">
+                    <view class="item"  wx:for="{{productRow}}" wx:key="index">
+                        <image src="{{item.logo}}"/>
+                        <text>{{item.name}}</text>
+                    </view>
+                </view>
+            </scroll-view>
+            <view class="discribe">
+                <image class="herbplantist" src="https://qncdn.playonwechat.com/hepulanShop/index_herbplantist.png"/>
+                <text>新品拼团剩余时间</text>
+                <view class="play_time">{{pageTime}}</view>
+            </view>
+        </navigator>
+        <!-- 女人街  -->
+        <block wx:for="{{productList}}">
+           <view class="product_list">
+            <view class="productNav flex">
+                <view class="nav_item" bindtap="changeNav" wx:for="{{productNav}}" wx:key="index" style="background:{{item.active?'#17392f':''}};color:{{item.active?'#fff':''}}" data-wepy-params-a="{{index}}">{{item.text}}</view>
+            </view>
+            <!-- 商品 -->
+            <view class="item_product flex" wx:for="{{item.goods}}" wx:for-item="goods" wx:key="index" style="background-image:url({{goods.logo}})">
+                <view>{{goods.name}}</view>
+                <view>￥{{goods.price/100}}</view>
+                <button class="buy">立即购买</button>
+            </view>
+        </view>
+        </block>
+        
+    </view>

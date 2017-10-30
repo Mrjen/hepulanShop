@@ -1,0 +1,41 @@
+
+    <view class="container">
+  <block wx:for="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+    
+  <view class="swipe-item-wrapper">
+    <view class="swipe-content" style="left:{{item.style === 0 ? '0' : item.style + 'rpx'}}" bindtouchstart="$swipeDelete$ts" bindtouchmove="$swipeDelete$tm" bindtouchend="$swipeDelete$te" data-com-index="{{index}}">
+      
+      <view class="swipe-title list_item">
+          <view class="radio"><radio bindtap="changeSelect" color="#095a31" checked="{{item.selected=='1'?true:false}}" data-wepy-params-a="{{index}}" data-wepy-params-b="{{item.id}}"/></view>
+          <view class="item_img">
+                <image src="{{item.goods.logo}}"/>
+            </view>
+          <view class="item_info">
+                <view class="name">{{item.goods.name}}</view>
+                <view class="price">￥{{item.goods.price/100}}</view>
+                <view class="type">{{item.option.option}}:{{item.option.value}}</view>
+                <view class="num_box">
+                    <view bindtap="changeNum" class="{{item.num=='1'?'disable':''}}" data-wepy-params-a="{{index}}" data-wepy-params-b="0">-</view>
+                    <view>{{item.num}}</view>
+                    <view bindtap="changeNum" data-wepy-params-a="{{index}}" data-wepy-params-b="1">+</view>
+                </view>
+            </view>
+      </view>
+    
+    </view>
+    <view class="swipe-actions actions-right">
+      <view class="swipe-btn del" catchtap="$swipeDelete$handleRightBtnTap" data-com-index="{{index}}" data-wepy-params-a="{{item}}">删除</view>
+    </view>
+  </view>
+
+  </block>
+
+        <!-- 底部导航 -->
+        <view class="bottom_nav">
+            <view class="nav_left">
+                <view><radio color="#095a31" bindtap="changeAllSelect" checked="{{Allselect=='1'?true:false}}"/>共{{count}}件商品</view>
+                <view>总计：￥{{Money}}</view>
+            </view>
+            <view class="submite_order" bindtap="buyGoods">结算(包邮)</view>
+        </view>
+    </view>

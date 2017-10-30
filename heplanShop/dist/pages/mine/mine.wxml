@@ -1,0 +1,29 @@
+
+    <view class="container">
+        <!-- 个人信息 -->
+        <view class="info">
+            <view class="persion_img">
+                <image src="{{userInfo.avatarUrl}}"/>
+            </view>
+            <view class="name">{{userInfo.nickName}}</view>
+        </view>
+        <!-- 我的订单 -->
+        <navigator class="my_order" url="../index/index" hover-class="none">
+            <text>我的订单</text>
+            <text>查看全部订单</text>
+        </navigator>
+        <!-- 订单状态 -->
+        <view class="order_status">
+            <navigator  wx:for="{{navList}}" url="" hover-class="none">
+                <image src="{{item.icon}}"/>
+                <view>{{item.text}}</view>
+                <view class="msg" wx:if="{{item.msg>0?true:false}}">{{item.msg}}</view>
+            </navigator>
+        </view>
+        <!-- 其他功能 -->
+        <view class="other_list">
+            <navigator url="" hover-class="none"/>
+            <navigator url="" hover-class="none"/>
+            <navigator url="" hover-class="none"/>
+        </view>
+    </view>

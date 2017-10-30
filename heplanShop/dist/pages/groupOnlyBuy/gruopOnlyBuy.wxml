@@ -1,0 +1,93 @@
+
+    <view class="container">
+        <view class="name">{{detail.name}}</view>
+        <!-- <view class="tip">距离拼团结束时间</view>
+        <view class="time">{{detail.endtime}}</view> -->
+        <!-- 图片轮播 -->
+        <swiper class="swiper" indicator-dots="false" autoplay="false" interval="5000" duration="1000">
+              <image src="{{detail.logo}}" class="slide-image"/>
+        </swiper>
+        <!-- 商品信息 -->
+        <view class="group_info">
+            <view class="info_top flex">
+                <view class="top_left flex">
+                    <view class="price">￥{{detail.groupPrice/100}}</view>
+                    <view class="info_left flex">
+                        <view class="oldprice">
+                            ￥{{detail.price/100}}
+                        </view>
+                        <!-- <view class="tag">
+                            <view>{{detail.num}}人拼团</view>
+                            <view>拼团立省{{detail.save_money}}元</view>
+                        </view> -->
+                    </view>
+                </view>
+                <!-- <view class="help" bindtap="toRules()">
+                    <text></text>规则</view> -->
+            </view>
+            <!-- 颜色 -->
+            <view class="type_box">
+                <view class="title">{{detail.option.group}}：</view>
+                <view class="type_view">
+                    <text  wx:for="{{detail.option.options}}" class="{{item.active?'active':''}}" wx:key="index" bindtap="changeType" data-wepy-params-a="{{index}}">{{item.option}}</text>
+                </view>
+            </view>
+            <!-- 数量 -->
+            <view class="count_box flex">
+                <view class="title">数量：</view>
+                <view class="opation_box">
+                    <view bindtap="cutNum" data-wepy-params-a="-1">-</view>
+                    <view>{{goodsNum}}</view>
+                    <view bindtap="cutNum" data-wepy-params-a="1">+</view>
+                </view>
+            </view>
+            <!-- 购买区 -->
+            <view class="btn_box">
+                <button open-type="concant">
+                    <text/>
+                    <view>找客服</view>
+                </button>
+                <view class="only_buy">
+                    <!-- <view class="price">￥{{detail.price/100}}</view> -->
+                    <view class="tiip" bindtap="addCart">加入购物车</view>
+                </view>
+                <view class="group_buy">
+                    <!-- <view class="price">￥{{detail.groupPrice/100}}</view> -->
+                    <view class="tiip">立即购买</view>
+                </view>
+            </view>
+            <!-- 收藏及展示 -->
+            <view class="collect_box">
+                <view class="collect collect1" bindtap="collect">
+                    <image  wx:if="{{detail.collect=='0'?true:false}}" src="https://qncdn.playonwechat.com/group_collect.png"/>
+                    <image wx:if="{{detail.collect=='0'?false:true}}" src="https://qncdn.playonwechat.com/group_collect_active1.png"/>
+                    <text>收藏</text>
+                </view>
+                <view class="collect">
+                    <image src="https://qncdn.playonwechat.com/hepulanShop/group_hepulan_logo.png"/>
+                    <text>官方店铺认证</text>
+                </view>
+                <view class="collect">
+                    <image src="https://qncdn.playonwechat.com/hepulanShop/group_hepulan_pay.png"/>
+                    <text>交易担保</text>
+                </view>
+            </view>
+            <!-- 商品参数及详情介绍 -->
+            <view class="detail">
+                <view class="nav">
+                    <view wx:for="{{navList}}" class="{{item.active?'active':''}}" wx:key="{{index}}" bindtap="changeDetail" data-wepy-params-a="{{index}}">{{item.text}}</view>
+                </view>
+                <block>
+                    <view class="detail_content" wx:if="{{navList[0].active}}">
+                       <image src="{{detail.image}}" mode="widthFix"/>
+                    </view>
+                    <view class="detail_content" wx:if="{{navList[1].active}}">
+                        <view class="item" wx:for="{{detail.args}}">
+                             <text>{{item.name}}:</text><text>{{item.value}}</text>
+                        </view>
+                    </view>
+                </block>
+                
+            </view>
+        </view>
+    </view>

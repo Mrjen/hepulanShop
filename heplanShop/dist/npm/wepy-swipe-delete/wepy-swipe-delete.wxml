@@ -1,0 +1,9 @@
+
+  <view class="swipe-item-wrapper">
+    <view class="swipe-content" style="left:{{swipeData.style === 0 ? '0' : swipeData.style + 'rpx'}}" bindtouchstart="ts" bindtouchmove="tm" bindtouchend="te">
+      
+    </view>
+    <view class="swipe-actions actions-right">
+      <view class="swipe-btn del" catchtap="handleRightBtnTap" data-wepy-params-a="{{swipeData}}">删除</view>
+    </view>
+  </view>

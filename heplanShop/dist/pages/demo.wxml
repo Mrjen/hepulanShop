@@ -1,0 +1,17 @@
+
+  <block wx:for="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+    
+  <view class="swipe-item-wrapper">
+    <view class="swipe-content" style="left:{{item.style === 0 ? '0' : item.style + 'rpx'}}" bindtouchstart="$swipeDelete$ts" bindtouchmove="$swipeDelete$tm" bindtouchend="$swipeDelete$te" data-com-index="{{index}}">
+      
+      <view class="swipe-title">
+        {{item.title}}
+      </view>
+    
+    </view>
+    <view class="swipe-actions actions-right">
+      <view class="swipe-btn del" catchtap="$swipeDelete$handleRightBtnTap" data-com-index="{{index}}" data-wepy-params-a="{{item}}">删除</view>
+    </view>
+  </view>
+
+  </block>
