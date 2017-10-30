@@ -257,7 +257,7 @@ page {
    </view>
    <!-- 按钮显示区 -->
    <view class="button_box">
-        <button class="join_group" wx:if="groupstatus" wx:if="{{joined=='0'?'true':false}}">加入拼团</button>
+        <button class="join_group" wx:if="groupstatus" wx:if="{{joined=='0'?'true':false}}" @tap="joinGroup">加入拼团</button>
        <button wx:elif="{{joined =='1'?true:false}}" open-type="share">分享给微信好友</button>
        <navigator wx:elif="">查看订单详情</navigator>
    </view>

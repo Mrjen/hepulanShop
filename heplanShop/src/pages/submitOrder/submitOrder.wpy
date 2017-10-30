@@ -353,9 +353,9 @@ export default class extends wepy.page {
 
   onLoad(options) {
       console.log(options,"options")
-    // let order = options.order;
+    let order = options.order;
     this.buytype = options.buytype;
-    let order = "56.47.77.61";
+    // let order = "56.47.77.61";
     this.order = order;
     console.log(this.order);
     let _apiurl = "";
