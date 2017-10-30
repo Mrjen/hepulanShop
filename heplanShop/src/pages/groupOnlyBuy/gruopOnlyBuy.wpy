@@ -341,7 +341,7 @@ page {
                 </view>
                 <view class="group_buy">
                     <!-- <view class="price">￥{{detail.groupPrice/100}}</view> -->
-                    <view class="tiip">立即购买</view>
+                    <view class="tiip" @tap="onlyBuy">立即购买</view>
                 </view>
             </view>
             <!-- 收藏及展示 -->
@@ -494,6 +494,22 @@ export default class extends wepy.page {
             }
         }
       );
+    },
+    // 立即购买
+    onlyBuy(){
+       let that = this;
+       let goods = {
+          goods:this.detail.goods,
+          num:this.goodsNum,
+          id:this.detail.id,
+          option:{
+             option:this.detail.option.group,
+             value:this.detail.option.options[this.goodsIndex-1].option
+          }
+       }
+       comm.wxRequest({query:{goods:goods,uid:wx.getStorageSync('uid')}},api.onlyBuy,function(res){
+         console.log(res)
+       })
     }
   };
 

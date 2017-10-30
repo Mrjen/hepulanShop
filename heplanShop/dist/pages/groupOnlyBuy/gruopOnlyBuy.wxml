@@ -53,7 +53,7 @@
                 </view>
                 <view class="group_buy">
                     <!-- <view class="price">￥{{detail.groupPrice/100}}</view> -->
-                    <view class="tiip">立即购买</view>
+                    <view class="tiip" bindtap="onlyBuy">立即购买</view>
                 </view>
             </view>
             <!-- 收藏及展示 -->

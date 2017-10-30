@@ -330,6 +330,7 @@ export default class extends wepy.page {
         this._apiurl,
         function(res) {
           console.log(res);
+          let groupid = res.data.data.groupId;
           if (res.data.status == "1") {
             wx.requestPayment({
               timeStamp: res.data.data.payData.timeStamp,
@@ -338,7 +339,11 @@ export default class extends wepy.page {
               signType: "MD5",
               paySign: res.data.data.payData.paySign,
               success: function(res) {
-                  tip.success("支付成功")
+                  tip.success("支付成功");
+                  console.log("支付成功",res)
+                  wx.navigateTo({
+                    url: `../inviteFight/inviteFight?groupid=${groupid}`
+                  })
               },
               fail: function(res) {
                   console.log("用户取消支付")
@@ -352,7 +357,7 @@ export default class extends wepy.page {
   };
 
   onLoad(options) {
-      console.log(options,"options")
+      console.log(options,"options 页面来源")
     let order = options.order;
     this.buytype = options.buytype;
     // let order = "56.47.77.61";

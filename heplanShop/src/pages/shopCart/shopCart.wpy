@@ -292,6 +292,7 @@ export default class extends wepy.page {
     buyGoods() {
       let that = this;
       that.buyData = that.selectArry(that.list);
+      console.log(that.buyData,"商品数据")
       comm.wxRequest(
         { query: { uid: wx.getStorageSync("uid"), goods: this.buyData } },
         api.onlyBuy,
